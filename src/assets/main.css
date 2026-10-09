@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #22c55e;
+  --color-brand-secondary: #84cc16;
+  --color-brand-dark: #1f2937;
+  --color-brand-light: #f8fafc;
+}
+
+/* Opcional: fondo general predeterminado para el panel */
+body {
+  background-color: var(--color-brand-light);
+  color: var(--color-brand-dark);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
