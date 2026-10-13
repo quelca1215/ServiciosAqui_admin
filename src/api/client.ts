@@ -8,7 +8,7 @@ import { getAuthToken, clearAuthSession } from './token'
  * La IP y el puerto se obtienen de la variable de entorno `VITE_API_URL`.
  * Si no está definida en el archivo .env, utiliza una dirección local por defecto.
  */
-export const API_BASE_URL: string = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
+export const API_BASE_URL: string = import.meta.env.VITE_API_URL 
 
 // Instancia principal de Axios configurada
 export const apiClient: AxiosInstance = axios.create({
