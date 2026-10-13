@@ -259,7 +259,7 @@
                   v-model="profile.fullName"
                   type="text"
                   required
-                  placeholder="Ej. Gabriel Gustavo Quelca Villarpando"
+                  placeholder="Ej. Juan Pérez"
                   class="w-full pl-10 pr-4 py-2.5 sm:py-3 text-sm font-medium rounded-xl border border-slate-200 bg-slate-50/70 text-slate-900 focus:bg-white focus:border-[#84cc16] focus:ring-4 focus:ring-[#84cc16]/20 outline-none transition-all duration-200"
                 />
               </div>
@@ -281,7 +281,7 @@
                     v-model="profile.email"
                     type="email"
                     required
-                    placeholder="ga.v.q1215@gmail.com"
+                    placeholder="operador@serviciosaqui.bo"
                     class="w-full pl-10 pr-4 py-2.5 sm:py-3 text-sm font-mono rounded-xl border border-slate-200 bg-slate-50/70 text-slate-900 focus:bg-white focus:border-[#84cc16] focus:ring-4 focus:ring-[#84cc16]/20 outline-none transition-all duration-200"
                   />
                 </div>
@@ -533,11 +533,11 @@ const userStore = useUserStore()
 // Datos del Perfil (Cargados dinámicamente desde Pinia store)
 // ----------------------------------------------------------------------
 const profile = reactive({
-  avatarUrl: '',
-  fullName: 'Gabriel Gustavo Quelca Villarpando',
-  email: 'ga.v.q1215@gmail.com',
-  phone: '+591 76543210',
-  role: 'SuperAdmin'
+  avatarUrl: userStore.currentUser?.avatar || '',
+  fullName: userStore.currentUser?.nombreCompleto || '',
+  email: userStore.currentUser?.email || '',
+  phone: userStore.currentUser?.phone || '',
+  role: userStore.currentUser?.rol || ''
 })
 
 onMounted(() => {
@@ -545,7 +545,7 @@ onMounted(() => {
   if (current) {
     if (current.nombreCompleto) profile.fullName = current.nombreCompleto
     if (current.email) profile.email = current.email
-    if (current.rol || current.role) profile.role = current.rol || current.role || 'SuperAdmin'
+    if (current.rol) profile.role = current.rol
     if (current.phone) profile.phone = current.phone
     if (current.avatar) profile.avatarUrl = current.avatar
   }
@@ -560,7 +560,7 @@ const userInitials = computed(() => {
   if (parts.length >= 2 && parts[0] && parts[1]) {
     return `${parts[0][0] || ''}${parts[1][0] || ''}`.toUpperCase()
   }
-  return name.slice(0, 2).toUpperCase() || 'GQ'
+  return name.slice(0, 2).toUpperCase() || '--'
 })
 
 // Detección del cliente
@@ -689,7 +689,6 @@ const savePersonalData = () => {
     isSavingPersonal.value = false
     userStore.updateUser({
       nombreCompleto: profile.fullName,
-      name: profile.fullName,
       email: profile.email,
       phone: profile.phone
     })

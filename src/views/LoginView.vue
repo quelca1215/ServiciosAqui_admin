@@ -282,18 +282,6 @@
             </button>
           </form>
 
-          <!-- Acceso Demo Rápido -->
-          <div class="relative mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <span class="font-medium">¿Pruebas locales?</span>
-            <button
-              type="button"
-              @click="fillDemoCredentials"
-              class="font-semibold text-[#16a34a] hover:text-[#052e16] hover:bg-[#84cc16]/15 border border-[#84cc16]/20 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
-            >
-              Llenar demo
-            </button>
-          </div>
-
           <!-- Overlay de Éxito -->
           <transition name="success">
             <div
@@ -1016,38 +1004,22 @@ const handleAdminLogin = async () => {
       email: credentials.email.trim(),
       password: credentials.secretKey,
       remember: credentials.remember
+
     })
     
-
     loginSuccess.value = true
     setTimeout(async () => {
       try {
         await router.push('/dashboard')
       } catch (navErr) {
-        console.error('Redirección con router falló, usando window.location:', navErr)
-        window.location.href = '/dashboard'
+        console.error('Redirección con router falló:', navErr)
       }
     }, 900)
   } catch (error: any) {
-    // Si la API backend no responde (offline / sin conexión con el servidor):
-    const isNetworkError = !error.status || error.originalError?.code === 'ERR_NETWORK' || error.message?.includes('No se pudo conectar')
 
-    if (isNetworkError) {
-      console.warn('API backend no disponible en la URL configurada. Iniciando sesión en modo local/demo.')
-      setAuthToken('demo-jwt-token-serviciosaqui-admin')
-      userStore.setUser({
-        email: credentials.email.trim(),
-        nombreCompleto: 'Gabriel Gustavo Quelca Villarpando',
-        rol: 'SuperAdmin'
-      })
-      loginSuccess.value = true
-      setTimeout(() => {
-        router.push('/dashboard')
-      }, 1000)
-      return
-    }
-
+    console.log('Error de login:', error)
     triggerError(error.message || 'Error al conectar con la API. Verifica tus credenciales.')
+    
   } finally {
     isLoading.value = false
   }

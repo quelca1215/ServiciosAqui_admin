@@ -443,10 +443,10 @@ const { email, nombreCompleto, rol, initials } = storeToRefs(userStore)
 // ----------------------------------------------------------------------
 // Datos del Usuario Autenticado Dinámicos desde Pinia Store (/store)
 // ----------------------------------------------------------------------
-const displayName = computed(() => nombreCompleto.value || 'Gabriel Gustavo Quelca')
-const displayEmail = computed(() => email.value || 'ga.v.q1215@gmail.com')
-const displayRole = computed(() => rol.value || 'SuperAdmin')
-const displayInitials = computed(() => initials.value || 'GQ')
+const displayName = computed(() => nombreCompleto.value || '--')
+const displayEmail = computed(() => email.value || '--')
+const displayRole = computed(() => rol.value || '--')
+const displayInitials = computed(() => initials.value || '--')
 
 // ----------------------------------------------------------------------
 // Módulo y Título Actual según la ruta
@@ -597,6 +597,7 @@ const handleLogout = async () => {
 
   // 1. Limpieza inmediata e incondicional de la sesión local
   clearAuthSession()
+  userStore.clearUser()
 
   // 2. Intentar llamar al backend en segundo plano
   try {
@@ -605,8 +606,14 @@ const handleLogout = async () => {
     console.warn('Sesión cerrada localmente:', err)
   }
 
-  // 3. Redirección forzada e infalible a la pantalla de login
-  window.location.replace('/login')
+  // 3. Redirección limpia a la pantalla de login
+  try {
+    await router.push('/login')
+  } catch {
+    window.location.href = '/login'
+  } finally {
+    isLoggingOut.value = false
+  }
 }
 
 // ----------------------------------------------------------------------

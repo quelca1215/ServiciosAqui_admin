@@ -41,12 +41,13 @@ export const useUserStore = defineStore('user', () => {
   // Getters computados
   const user = computed(() => currentUser.value)
   const email = computed(() => currentUser.value?.email || '')
-  const nombreCompleto = computed(() => currentUser.value?.nombreCompleto || currentUser.value?.name || '')
-  const rol = computed(() => currentUser.value?.rol || currentUser.value?.role || '')
+  const nombreCompleto = computed(() => currentUser.value?.nombreCompleto || '')
+  const rol = computed(() => currentUser.value?.rol || '')
   const isAuthenticated = computed(() => !!currentUser.value && !!getAuthToken())
 
   const initials = computed(() => {
-    const name = nombreCompleto.value.trim()
+    const name = (nombreCompleto.value || '').trim()
+    if (!name) return 'SA'
     const parts = name.split(/\s+/)
     if (parts.length >= 2 && parts[0] && parts[1]) {
       return `${parts[0][0] || ''}${parts[1][0] || ''}`.toUpperCase()
@@ -71,7 +72,7 @@ export const useUserStore = defineStore('user', () => {
       currentUser.value = {
         email: newEmail,
         nombreCompleto: '',
-        rol: 'SuperAdmin'
+        rol: ''
       }
       setAuthUser(currentUser.value)
     }
@@ -137,9 +138,7 @@ export const useUserStore = defineStore('user', () => {
         updateUser({
           email: data.email || currentUser.value?.email || '',
           nombreCompleto: data.nombreCompleto || currentUser.value?.nombreCompleto || '',
-          name: data.nombreCompleto || currentUser.value?.name || '',
-          rol: data.rol || currentUser.value?.rol || 'SuperAdmin',
-          role: data.rol || currentUser.value?.role || 'SuperAdmin'
+          rol: data.rol || currentUser.value?.rol || '',
         })
       }
 

@@ -15,10 +15,10 @@ export interface BackendResult<T = any> {
 export interface AdminUser {
   id?: string | number
   email: string
-  name?: string
   nombreCompleto: string
-  role?: string
   rol: string
+  name?: string
+  role?: string
   avatar?: string
   phone?: string
   isActive?: boolean

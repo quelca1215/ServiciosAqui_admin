@@ -68,10 +68,8 @@ export const authService = {
     // Mapear el usuario recibido para la sesión
     const user: AdminUser = {
       email: backendData?.email || payload.email,
-      nombreCompleto: backendData?.nombreCompleto || 'Administrador',
-      name: backendData?.nombreCompleto || 'Administrador',
-      rol: backendData?.rol || 'SuperAdmin',
-      role: backendData?.rol || 'SuperAdmin'
+      nombreCompleto: backendData?.nombreCompleto || '',
+      rol: backendData?.rol || '',
     }
 
     // Guardar token y usuario en sessionStorage y en Pinia store
