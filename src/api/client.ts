@@ -1,32 +1,17 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig, type AxiosResponse, type AxiosError } from 'axios'
 import { getAuthToken, clearAuthSession } from './token'
 
-/**
- * ==============================================================================
- * CONEXIÓN A LA API (IP / BASE URL) & CONFIGURACIÓN DE AXIOS
- * ==============================================================================
- * La IP y el puerto se obtienen de la variable de entorno `VITE_API_URL`.
- * Si no está definida en el archivo .env, utiliza una dirección local por defecto.
- */
 export const API_BASE_URL: string = import.meta.env.VITE_API_URL 
 
-// Instancia principal de Axios configurada
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 15000, // 15 segundos de timeout
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
 })
 
-/**
- * ==============================================================================
- * INTERCEPTOR DE PETICIONES (REQUEST INTERCEPTOR)
- * ==============================================================================
- * Inyecta automáticamente el token de autenticación (Bearer Token) en la cabecera
- * `Authorization` de cada solicitud que salga hacia la API.
- */
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = getAuthToken()
@@ -42,18 +27,8 @@ apiClient.interceptors.request.use(
   }
 )
 
-/**
- * ==============================================================================
- * INTERCEPTOR DE RESPUESTAS (RESPONSE INTERCEPTOR)
- * ==============================================================================
- * Captura las respuestas del servidor:
- * 1. Si la respuesta trae isSuccess: false (patrón Result), la rechaza como error.
- * 2. Si recibe un error 401 (Unauthorized), limpia la sesión y redirige al login si no está en login.
- * 3. Procesa y normaliza los mensajes de error para que sean amigables en la interfaz.
- */
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
-    // Manejo de respuestas con HTTP 200 pero isSuccess: false (ej: contraseña incorrecta)
     if (response.data && response.data.isSuccess === false) {
       const message = response.data.message || 'Error al procesar la solicitud.'
       return Promise.reject({
@@ -65,17 +40,14 @@ apiClient.interceptors.response.use(
     return response
   },
   (error: AxiosError<{ message?: string; isSuccess?: boolean; data?: any; statusCode?: number; errors?: any }>) => {
-    // Si la sesión expiró o el token es inválido (HTTP 401)
     if (error.response?.status === 401) {
       clearAuthSession()
 
-      // Si no estamos ya en la pantalla de login, redirigir
       if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
         window.location.href = '/login'
       }
     }
 
-    // Normalización de mensajes de error
     let userFriendlyMessage = 'Ocurrió un error inesperado al procesar la solicitud.'
 
     if (error.response?.data?.message) {
@@ -94,7 +66,6 @@ apiClient.interceptors.response.use(
       userFriendlyMessage = 'Error interno en el servidor backend. Intenta nuevamente más tarde.'
     }
 
-    // Retorna el error con mensaje normalizado
     return Promise.reject({
       status: error.response?.status || (error as any).status,
       message: userFriendlyMessage,

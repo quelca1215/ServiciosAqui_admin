@@ -1,9 +1,6 @@
 <template>
   <div class="space-y-6 max-w-7xl mx-auto selection:bg-[#84cc16] selection:text-[#052e16]">
     
-    <!-- ====================================================================== -->
-    <!-- ENCABEZADO DE LA VISTA: TÍTULO Y BADGE INSTITUCIONAL                   -->
-    <!-- ====================================================================== -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#84cc16]/15 border border-[#84cc16]/30 text-[#15803d] mb-1.5">
@@ -18,7 +15,6 @@
         </p>
       </div>
 
-      <!-- Badge de Estado en Vivo -->
       <div class="flex items-center gap-2 self-start sm:self-center">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-[#22c55e]/10 text-[#15803d] border border-[#22c55e]/30 shadow-2xs">
           <span class="relative flex h-2 w-2">
@@ -30,9 +26,6 @@
       </div>
     </div>
 
-    <!-- ====================================================================== -->
-    <!-- ALERTA / TOAST DE RETROALIMENTACIÓN (SUCCESS / ERROR)                  -->
-    <!-- ====================================================================== -->
     <transition name="fade">
       <div 
         v-if="feedbackMessage.text" 
@@ -63,26 +56,17 @@
       </div>
     </transition>
 
-    <!-- ====================================================================== -->
-    <!-- LAYOUT PRINCIPAL: 2 COLUMNAS (4 COL IZQ / 8 COL DER)                   -->
-    <!-- ====================================================================== -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
-      <!-- ==================================================================== -->
-      <!-- COLUMNA IZQUIERDA: TARJETA DE IDENTIDAD & SEGURIDAD DE SESIÓN        -->
-      <!-- ==================================================================== -->
       <div class="lg:col-span-4 space-y-6">
         
-        <!-- Tarjeta de Perfil con Paleta Institucional -->
         <div class="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm text-center relative overflow-hidden">
           
-          <!-- Cabecera decorativa en verde oscuro profundo de la marca -->
           <div class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-br from-[#03140b] via-[#052e16] to-[#041e0f]">
             <div class="pointer-events-none absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#84cc16]/20 blur-xl"></div>
             <div class="pointer-events-none absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-[#22c55e]/20 blur-xl"></div>
           </div>
 
-          <!-- Avatar con anillo gradiente y carga de imagen -->
           <div class="relative inline-block mt-10 mb-4">
             <div class="w-28 h-28 rounded-3xl p-1 bg-white shadow-xl mx-auto">
               <div class="w-full h-full rounded-[20px] overflow-hidden bg-gradient-to-tr from-[#052e16] to-[#03140b] flex items-center justify-center text-white font-black text-2xl relative group">
@@ -96,7 +80,6 @@
                   {{ userInitials }}
                 </span>
 
-                <!-- Overlay al pasar el cursor sobre la foto -->
                 <label 
                   for="avatar-upload" 
                   class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-1 text-white text-[11px] font-semibold cursor-pointer transition-opacity duration-200 backdrop-blur-2xs"
@@ -107,7 +90,6 @@
               </div>
             </div>
 
-            <!-- Botón flotante para subir foto -->
             <label
               for="avatar-upload"
               class="absolute bottom-1 right-1 p-2.5 rounded-xl bg-gradient-to-r from-[#22c55e] to-[#84cc16] text-[#052e16] shadow-md shadow-[#84cc16]/40 cursor-pointer transition transform hover:scale-105 active:scale-95"
@@ -124,7 +106,6 @@
             </label>
           </div>
 
-          <!-- Nombre y Rol del Operador -->
           <h3 class="text-lg font-black text-slate-900 leading-tight">
             {{ profile.fullName }}
           </h3>
@@ -135,7 +116,6 @@
             </span>
           </div>
 
-          <!-- Botón opcional para quitar foto -->
           <div v-if="profile.avatarUrl" class="mt-2.5">
             <button 
               type="button" 
@@ -147,7 +127,6 @@
             </button>
           </div>
 
-          <!-- Detalles Rápidos del Operador -->
           <div class="mt-6 pt-5 border-t border-slate-100 text-left space-y-3 text-xs">
             <div class="flex items-center justify-between">
               <span class="text-slate-400 font-medium">Correo Electrónico</span>
@@ -168,7 +147,6 @@
           </div>
         </div>
 
-        <!-- Tarjeta de Estado del Sistema & Terminal Actual -->
         <div class="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-sm space-y-3">
           <div class="flex items-center gap-2 text-slate-900 font-bold text-xs uppercase tracking-wider font-mono">
             <Laptop class="w-4 h-4 text-[#16a34a]" />
@@ -204,12 +182,8 @@
 
       </div>
 
-      <!-- ==================================================================== -->
-      <!-- COLUMNA DERECHA: PESTAÑAS (DATOS PERSONALES & SEGURIDAD)              -->
-      <!-- ==================================================================== -->
       <div class="lg:col-span-8 bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
         
-        <!-- Pestañas de Navegación con Paleta Institucional -->
         <div class="border-b border-slate-200/80 bg-slate-50/70 px-6 pt-3 flex gap-4 text-xs font-bold">
           <button
             @click="activeTab = 'personal'"
@@ -230,9 +204,6 @@
           </button>
         </div>
 
-        <!-- ================================================================== -->
-        <!-- PESTAÑA 1: DATOS PERSONALES DEL OPERADOR                           -->
-        <!-- ================================================================== -->
         <div v-show="activeTab === 'personal'" class="p-6 sm:p-8">
           <div class="mb-6">
             <h3 class="text-base font-bold text-slate-900 tracking-tight">
@@ -245,7 +216,6 @@
 
           <form @submit.prevent="savePersonalData" class="space-y-5" novalidate>
             
-            <!-- Nombre Completo -->
             <div>
               <label for="full-name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                 Nombre Completo <span class="text-rose-500">*</span>
@@ -265,9 +235,7 @@
               </div>
             </div>
 
-            <!-- Correo y Teléfono -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <!-- Correo -->
               <div>
                 <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                   Correo Electrónico <span class="text-rose-500">*</span>
@@ -287,7 +255,6 @@
                 </div>
               </div>
 
-              <!-- Teléfono -->
               <div>
                 <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                   Teléfono / WhatsApp de Contacto
@@ -307,7 +274,6 @@
               </div>
             </div>
 
-            <!-- Rol de la Cuenta (Informativo Protegido) -->
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                 Rol Administrativo
@@ -322,7 +288,6 @@
               </div>
             </div>
 
-            <!-- Botón Guardar Cambios con Gradiente Institucional -->
             <div class="pt-4 border-t border-slate-100 flex items-center justify-end">
               <button
                 type="submit"
@@ -338,9 +303,6 @@
           </form>
         </div>
 
-        <!-- ================================================================== -->
-        <!-- PESTAÑA 2: SEGURIDAD Y CAMBIO DE CONTRASEÑA                        -->
-        <!-- ================================================================== -->
         <div v-show="activeTab === 'security'" class="p-6 sm:p-8">
           <div class="mb-6">
             <h3 class="text-base font-bold text-slate-900 tracking-tight">
@@ -353,7 +315,6 @@
 
           <form @submit.prevent="updatePassword" class="space-y-5" novalidate>
             
-            <!-- Contraseña Actual -->
             <div>
               <label for="current-pwd" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                 Contraseña Actual <span class="text-rose-500">*</span>
@@ -382,7 +343,6 @@
               </div>
             </div>
 
-            <!-- Nueva Contraseña -->
             <div>
               <label for="new-pwd" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                 Nueva Contraseña <span class="text-rose-500">*</span>
@@ -410,7 +370,6 @@
                 </button>
               </div>
 
-              <!-- Indicador de Fuerza de Contraseña con paleta de marca -->
               <div v-if="securityForm.newPassword" class="mt-2.5 space-y-1.5">
                 <div class="flex items-center justify-between text-[11px] font-mono">
                   <span class="text-slate-500">Nivel de seguridad:</span>
@@ -425,7 +384,6 @@
                 </div>
               </div>
 
-              <!-- Lista interactiva de requisitos de seguridad -->
               <div class="mt-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                 <div class="flex items-center gap-1.5" :class="hasMinLength ? 'text-emerald-700 font-bold' : 'text-slate-400'">
                   <CheckCircle2 class="w-3.5 h-3.5 shrink-0" :class="hasMinLength ? 'text-[#16a34a]' : 'text-slate-300'" />
@@ -446,7 +404,6 @@
               </div>
             </div>
 
-            <!-- Confirmar Nueva Contraseña -->
             <div>
               <div class="flex items-center justify-between mb-1.5">
                 <label for="confirm-pwd" class="text-xs font-bold uppercase tracking-wider text-slate-700">
@@ -481,7 +438,6 @@
               </div>
             </div>
 
-            <!-- Botón Actualizar Contraseña -->
             <div class="pt-4 border-t border-slate-100 flex items-center justify-end">
               <button
                 type="submit"
@@ -529,9 +485,6 @@ import { useUserStore } from '@/store'
 const activeTab = ref<'personal' | 'security'>('personal')
 const userStore = useUserStore()
 
-// ----------------------------------------------------------------------
-// Datos del Perfil (Cargados dinámicamente desde Pinia store)
-// ----------------------------------------------------------------------
 const profile = reactive({
   avatarUrl: userStore.currentUser?.avatar || '',
   fullName: userStore.currentUser?.nombreCompleto || '',
@@ -551,9 +504,6 @@ onMounted(() => {
   }
 })
 
-// ----------------------------------------------------------------------
-// Iniciales del Usuario
-// ----------------------------------------------------------------------
 const userInitials = computed(() => {
   const name = profile.fullName.trim()
   const parts = name.split(/\s+/)
@@ -563,7 +513,6 @@ const userInitials = computed(() => {
   return name.slice(0, 2).toUpperCase() || '--'
 })
 
-// Detección del cliente
 const clientPlatform = computed(() => {
   if (typeof navigator !== 'undefined') {
     return navigator.userAgent.includes('Linux') 
@@ -577,9 +526,6 @@ const clientPlatform = computed(() => {
   return 'Navegador Web'
 })
 
-// ----------------------------------------------------------------------
-// Seguridad / Formulario de Cambio de Contraseña
-// ----------------------------------------------------------------------
 const securityForm = reactive({
   currentPassword: '',
   newPassword: '',
@@ -598,9 +544,6 @@ const feedbackMessage = reactive({
   type: 'success' as 'success' | 'error'
 })
 
-// ----------------------------------------------------------------------
-// Subida y eliminación de foto de avatar
-// ----------------------------------------------------------------------
 const handleAvatarChange = (event: Event) => {
   const input = event.target as HTMLInputElement
   if (input.files && input.files[0]) {
@@ -615,7 +558,6 @@ const handleAvatarChange = (event: Event) => {
     const reader = new FileReader()
     reader.onload = (e) => {
       profile.avatarUrl = e.target?.result as string
-      // Guardar también en la sesión y en el store
       userStore.updateUser({ avatar: profile.avatarUrl })
       feedbackMessage.text = 'Fotografía de perfil actualizada con éxito.'
       feedbackMessage.type = 'success'
@@ -631,9 +573,6 @@ const removeAvatar = () => {
   feedbackMessage.type = 'success'
 }
 
-// ----------------------------------------------------------------------
-// Validación de Requisitos de Contraseña
-// ----------------------------------------------------------------------
 const hasMinLength = computed(() => securityForm.newPassword.length >= 8)
 const hasUpperAndLower = computed(() => /[a-z]/.test(securityForm.newPassword) && /[A-Z]/.test(securityForm.newPassword))
 const hasNumber = computed(() => /\d/.test(securityForm.newPassword))
@@ -679,9 +618,6 @@ const passwordStrengthBarClass = computed(() => {
   return 'bg-gradient-to-r from-[#22c55e] to-[#84cc16]'
 })
 
-// ----------------------------------------------------------------------
-// Guardar Datos Personales
-// ----------------------------------------------------------------------
 const savePersonalData = () => {
   isSavingPersonal.value = true
 
@@ -697,9 +633,6 @@ const savePersonalData = () => {
   }, 700)
 }
 
-// ----------------------------------------------------------------------
-// Actualizar Contraseña en el Backend
-// ----------------------------------------------------------------------
 const updatePassword = async () => {
   if (!isPasswordValid.value) {
     feedbackMessage.text = 'La contraseña no cumple los requisitos mínimos de seguridad o no coincide.'

@@ -2,17 +2,33 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginAdminView from '../views/LoginView.vue'
 import AdminLayout from '../layouts/AdminLayout.vue'
 import DashboardView from '../views/DashboardView.vue'
-import UsersView from '../views/UsersView.vue'
 import VerificationView from '../views/VerificationView.vue'
-import PaymentsView from '../views/PaymentsView.vue'
-import CategoriesView from '../views/CategoriesView.vue'
-import ReportsView from '../views/ReportsView.vue'
-import AuditView from '../views/AuditView.vue'
-import SettingsView from '../views/SettingsView.vue'
 import ProfileView from '../views/ProfileView.vue'
-import UserDetailView from '../views/UserDetailView.vue'
-import ModulePlaceholderView from '../views/ModulePlaceholderView.vue'
+import UnauthorizedView from '../views/UnauthorizedView.vue'
 import { isAuthenticated } from '@/api'
+import { userStore } from '@/store'
+import { hasRouteAccess } from '@/composables/usePermissions'
+
+const ModulePlaceholderView = () => import('../views/ModulePlaceholderView.vue')
+
+const ClientesView = () => import('../views/usuarios/ClientesView.vue')
+const ProveedoresView = () => import('../views/usuarios/ProveedoresView.vue')
+
+const SolicitudesView = () => import('../views/operaciones/SolicitudesView.vue')
+
+const CategoriasView = () => import('../views/catalogo/CategoriasView.vue')
+const EspecialidadesView = () => import('../views/catalogo/EspecialidadesView.vue')
+const ZonasView = () => import('../views/catalogo/ZonasView.vue')
+
+const PagosView = () => import('../views/finanzas/PagosView.vue')
+const RetirosView = () => import('../views/finanzas/RetirosView.vue')
+const ComisionesView = () => import('../views/finanzas/ComisionesView.vue')
+
+const PersonalInternoView = () => import('../views/admin/PersonalInternoView.vue')
+const RolesView = () => import('../views/admin/RolesView.vue')
+const ModulosView = () => import('../views/admin/ModulosView.vue')
+const AuditoriaView = () => import('../views/admin/AuditoriaView.vue')
+const ConfiguracionView = () => import('../views/admin/ConfiguracionView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,35 +50,42 @@ const router = createRouter({
           component: DashboardView,
           meta: { title: 'Dashboard', section: 'PRINCIPAL' }
         },
-        // Usuarios y Perfiles
         {
           path: 'usuarios',
           name: 'usuarios',
-          component: UsersView,
+          component: ModulePlaceholderView,
           meta: { title: 'Gestión de Usuarios', section: 'USUARIOS' }
+        },
+        {
+          path: 'clientes',
+          redirect: '/usuarios/clientes'
         },
         {
           path: 'usuarios/clientes',
           name: 'usuarios-clientes',
-          component: UsersView,
+          component: ClientesView,
           meta: { title: 'Clientes', section: 'USUARIOS' }
+        },
+        {
+          path: 'proveedores',
+          redirect: '/usuarios/prestadores'
         },
         {
           path: 'usuarios/prestadores',
           name: 'usuarios-prestadores',
-          component: UsersView,
+          component: ProveedoresView,
           meta: { title: 'Prestadores de Servicios', section: 'USUARIOS' }
         },
         {
           path: 'usuarios/personal',
           name: 'usuarios-personal',
-          component: UsersView,
+          component: PersonalInternoView,
           meta: { title: 'Personal Interno', section: 'USUARIOS' }
         },
         {
           path: 'usuarios/:id',
           name: 'usuario-detalle',
-          component: UserDetailView,
+          component: ModulePlaceholderView,
           meta: { title: 'Detalle de Usuario', section: 'USUARIOS' }
         },
         {
@@ -72,11 +95,10 @@ const router = createRouter({
           meta: { title: 'Verificación (KYC)', section: 'USUARIOS' }
         },
 
-        // Operaciones
         {
           path: 'operaciones/solicitudes',
           name: 'operaciones-solicitudes',
-          component: ModulePlaceholderView,
+          component: SolicitudesView,
           meta: { title: 'Solicitudes', section: 'OPERACIONES' }
         },
         {
@@ -98,33 +120,31 @@ const router = createRouter({
           meta: { title: 'Conversaciones', section: 'OPERACIONES' }
         },
 
-        // Catálogo
         {
           path: 'categorias',
           name: 'categorias',
-          component: CategoriesView,
+          component: CategoriasView,
           meta: { title: 'Categorías', section: 'CATÁLOGO' }
         },
         {
           path: 'catalogo/categorias',
           name: 'catalogo-categorias',
-          component: CategoriesView,
+          component: CategoriasView,
           meta: { title: 'Categorías', section: 'CATÁLOGO' }
         },
         {
           path: 'catalogo/especialidades',
           name: 'catalogo-especialidades',
-          component: ModulePlaceholderView,
+          component: EspecialidadesView,
           meta: { title: 'Especialidades', section: 'CATÁLOGO' }
         },
         {
           path: 'catalogo/zonas',
           name: 'catalogo-zonas',
-          component: ModulePlaceholderView,
+          component: ZonasView,
           meta: { title: 'Zonas y Ubicaciones', section: 'CATÁLOGO' }
         },
 
-        // Moderación
         {
           path: 'moderacion/resenas',
           name: 'moderacion-resenas',
@@ -144,7 +164,6 @@ const router = createRouter({
           meta: { title: 'Disputas', section: 'MODERACIÓN' }
         },
 
-        // Soporte
         {
           path: 'soporte/tickets',
           name: 'soporte-tickets',
@@ -158,45 +177,43 @@ const router = createRouter({
           meta: { title: 'Reclamaciones', section: 'SOPORTE' }
         },
 
-        // Finanzas
         {
           path: 'pagos',
           name: 'pagos',
-          component: PaymentsView,
+          component: PagosView,
           meta: { title: 'Pagos & Escrow', section: 'FINANZAS' }
         },
         {
           path: 'finanzas/pagos',
           name: 'finanzas-pagos',
-          component: PaymentsView,
+          component: PagosView,
           meta: { title: 'Pagos & Escrow', section: 'FINANZAS' }
         },
         {
           path: 'finanzas/retiros',
           name: 'finanzas-retiros',
-          component: ModulePlaceholderView,
+          component: RetirosView,
           meta: { title: 'Retiros', section: 'FINANZAS' }
         },
         {
           path: 'finanzas/comisiones',
           name: 'finanzas-comisiones',
-          component: ModulePlaceholderView,
+          component: ComisionesView,
           meta: { title: 'Comisiones', section: 'FINANZAS' }
         },
         {
           path: 'finanzas/reportes',
           name: 'finanzas-reportes',
-          component: ReportsView,
+          component: ModulePlaceholderView,
           meta: { title: 'Reportes Financieros', section: 'FINANZAS' }
         },
         {
           path: 'reportes',
           name: 'reportes',
-          component: ReportsView,
+          component: ModulePlaceholderView,
           meta: { title: 'Reportes y Analíticas', section: 'FINANZAS' }
         },
 
-        // Marketing
         {
           path: 'marketing/cupones',
           name: 'marketing-cupones',
@@ -210,56 +227,60 @@ const router = createRouter({
           meta: { title: 'Notificaciones Push', section: 'MARKETING' }
         },
 
-        // Administración
         {
           path: 'admin/usuarios',
           name: 'admin-usuarios',
-          component: UsersView,
+          component: PersonalInternoView,
           meta: { title: 'Usuarios del Sistema', section: 'ADMINISTRACIÓN' }
         },
         {
           path: 'admin/roles',
           name: 'admin-roles',
-          component: ModulePlaceholderView,
+          component: RolesView,
           meta: { title: 'Roles y Permisos', section: 'ADMINISTRACIÓN' }
         },
         {
           path: 'admin/modulos',
           name: 'admin-modulos',
-          component: ModulePlaceholderView,
+          component: ModulosView,
           meta: { title: 'Módulos del Sistema', section: 'ADMINISTRACIÓN' }
         },
         {
           path: 'auditoria',
           name: 'auditoria',
-          component: AuditView,
+          component: AuditoriaView,
           meta: { title: 'Bitácora de Auditoría', section: 'ADMINISTRACIÓN' }
         },
         {
           path: 'admin/auditoria',
           name: 'admin-auditoria',
-          component: AuditView,
+          component: AuditoriaView,
           meta: { title: 'Logs y Auditoría', section: 'ADMINISTRACIÓN' }
         },
         {
           path: 'configuracion',
           name: 'configuracion',
-          component: SettingsView,
+          component: ConfiguracionView,
           meta: { title: 'Configuración Global', section: 'ADMINISTRACIÓN' }
         },
         {
           path: 'admin/configuracion',
           name: 'admin-configuracion',
-          component: SettingsView,
+          component: ConfiguracionView,
           meta: { title: 'Configuración Global', section: 'ADMINISTRACIÓN' }
         },
 
-        // Perfil
         {
           path: 'perfil',
           name: 'perfil',
           component: ProfileView,
           meta: { title: 'Mi Perfil' }
+        },
+        {
+          path: 'sin-acceso',
+          name: 'sin-acceso',
+          component: UnauthorizedView,
+          meta: { title: 'Acceso Restringido' }
         }
       ]
     },
@@ -270,8 +291,9 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, _from, next) => {
-  // Actualizar el título de la pestaña del navegador
+const EXEMPT_RBAC_ROUTES = new Set(['login', 'dashboard', 'perfil', 'sin-acceso'])
+
+router.beforeEach(async (to, _from, next) => {
   if (to.meta.title) {
     document.title = `${to.meta.title} · ServiciosAquí Admin`
   }
@@ -279,9 +301,25 @@ router.beforeEach((to, _from, next) => {
   const loggedIn = isAuthenticated()
   const isLoginPage = to.name === 'login'
 
-  // Si no ha iniciado sesión e intenta acceder a una ruta protegida
   if (!loggedIn && !isLoginPage) {
     return next({ name: 'login' })
+  }
+
+  if (loggedIn && isLoginPage) {
+    return next({ name: 'dashboard' })
+  }
+
+  if (loggedIn && !EXEMPT_RBAC_ROUTES.has(String(to.name || ''))) {
+    if (userStore.modulos.length === 0) {
+      await userStore.cargarModulos()
+    }
+
+    if (!hasRouteAccess(to.path, userStore.modulos)) {
+      return next({
+        name: 'sin-acceso',
+        query: { from: to.fullPath },
+      })
+    }
   }
 
   next()

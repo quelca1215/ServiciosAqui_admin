@@ -1,77 +1,57 @@
 <template>
   <div class="space-y-6">
-    <!-- Encabezado del Módulo -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-2 mb-1.5">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#84cc16]/15 text-[#15803d] border border-[#84cc16]/30">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse"></span>
-            {{ moduleSection }}
-          </span>
-          <span class="text-xs text-slate-400 font-mono">• Módulo Autorizado</span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-          <span>{{ moduleTitle }}</span>
-        </h2>
-        <p class="text-slate-500 text-xs sm:text-sm mt-0.5">
-          Gestión integral de {{ moduleTitle.toLowerCase() }} para la consola administrativa de ServiciosAquí.
-        </p>
-      </div>
-
-      <div class="flex items-center gap-2">
+    <PageHeader
+      :tag="moduleSection"
+      :title="moduleTitle"
+      :description="`Información general de la sección ${moduleTitle}.`"
+    >
+      <template #actions>
         <router-link
           to="/dashboard"
-          class="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-2xs transition flex items-center gap-1.5"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border-2 border-slate-200 bg-white hover:border-emerald-500/40 hover:text-emerald-800 text-slate-700 font-bold text-xs shadow-2xs transition"
         >
-          <ArrowLeft class="w-3.5 h-3.5 text-slate-500" />
-          <span>Volver al Dashboard</span>
+          <ArrowLeft class="w-3.5 h-3.5" />
+          <span>Volver a la Consola</span>
         </router-link>
-      </div>
-    </div>
+      </template>
+    </PageHeader>
 
-    <!-- Tarjeta Hero del Módulo -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#031d10] via-[#052e16] to-[#0b381d] text-white p-7 sm:p-9 border border-emerald-500/20 shadow-xl shadow-emerald-950/20">
-      <div class="pointer-events-none absolute -right-10 -bottom-10 w-64 h-64 rounded-full bg-emerald-500/15 blur-3xl"></div>
-      <div class="pointer-events-none absolute top-0 right-20 w-44 h-44 rounded-full bg-lime-400/10 blur-2xl"></div>
-
-      <div class="relative z-10 max-w-2xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold bg-white/10 text-lime-300 border border-white/15 mb-4">
-          <Sparkles class="w-3.5 h-3.5 text-lime-400" />
-          <span>Módulo Conectado con la API</span>
+    <div
+      class="bg-white rounded-3xl border-2 border-slate-200/90 shadow-md shadow-slate-200/40 p-10 sm:p-14 text-center"
+    >
+      <div class="max-w-lg mx-auto space-y-4">
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200"
+        >
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span>Próximamente</span>
         </div>
-        <h3 class="text-xl sm:text-2xl font-black tracking-tight text-white mb-2">
-          Consola Operativa: {{ moduleTitle }}
+
+        <div
+          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-[#0b1322] text-amber-400 border border-slate-800 shadow-lg mx-auto flex items-center justify-center"
+        >
+          <Clock class="w-7 h-7 stroke-[2.1]" />
+        </div>
+
+        <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+          Aún no disponible
         </h3>
-        <p class="text-xs sm:text-sm text-emerald-100/80 leading-relaxed mb-6">
-          Este módulo está habilitado en tu perfil de operador con permisos de lectura y control administrativo según la respuesta de <code class="bg-black/30 px-1.5 py-0.5 rounded text-lime-300 font-mono text-[11px]">/api/AdminAuth/MostrarModulosPermitidos</code>.
+
+        <p class="text-xs sm:text-sm text-slate-500 leading-relaxed">
+          La sección <strong class="text-slate-700">{{ moduleTitle }}</strong> estará disponible
+          próximamente en el panel de administración.
         </p>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs font-mono text-emerald-200">
-            <ShieldCheck class="w-4 h-4 text-lime-400" />
-            <span>Permiso: PuedeVer (Activo)</span>
-          </div>
-          <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-500/20 backdrop-blur-md border border-emerald-400/30 text-xs font-mono text-lime-300">
-            <CheckCircle2 class="w-4 h-4" />
-            <span>Sincronizado con Sesión</span>
-          </div>
+        <div class="pt-2">
+          <router-link
+            to="/dashboard"
+            class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition"
+          >
+            <ArrowLeft class="w-3.5 h-3.5" />
+            <span>Ir a la Consola</span>
+          </router-link>
         </div>
       </div>
-    </div>
-
-    <!-- Indicador de Próxima Integración de Tabla -->
-    <div class="bg-white rounded-3xl border-2 border-slate-200/90 shadow-md shadow-slate-200/40 p-8 text-center space-y-3">
-      <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-lime-500 p-[2px] mx-auto shadow-md shadow-emerald-500/20">
-        <div class="w-full h-full bg-[#052e16] rounded-[14px] flex items-center justify-center text-lime-400">
-          <Layers class="w-6 h-6 stroke-[2.2]" />
-        </div>
-      </div>
-      <h4 class="text-base font-black text-slate-800">
-        Vista del Módulo {{ moduleTitle }} Lista para Integración
-      </h4>
-      <p class="text-xs text-slate-500 max-w-md mx-auto">
-        La ruta <code class="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded font-bold">{{ currentPath }}</code> ha sido vinculada correctamente en el router de navegación y en la barra lateral.
-      </p>
     </div>
   </div>
 </template>
@@ -79,17 +59,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { 
-  ArrowLeft, 
-  Sparkles, 
-  ShieldCheck, 
-  CheckCircle2, 
-  Layers 
-} from 'lucide-vue-next'
+import { ArrowLeft, Clock } from 'lucide-vue-next'
+import { PageHeader } from '@/components/common'
 
 const route = useRoute()
-
-const currentPath = computed(() => route.path)
 
 const moduleTitle = computed(() => {
   if (route.meta?.title) return route.meta.title as string
@@ -110,4 +83,3 @@ const moduleSection = computed(() => {
   return 'GENERAL'
 })
 </script>
-

@@ -7,7 +7,6 @@
   --color-brand-light: #f8fafc;
 }
 
-/* Opcional: fondo general predeterminado para el panel */
 body {
   background-color: var(--color-brand-light);
   color: var(--color-brand-dark);

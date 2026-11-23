@@ -1,89 +1,94 @@
-/**
- * ==============================================================================
- * CATÁLOGO CENTRALIZADO DE ENDPOINTS DE LA API (ServiciosAquí Admin)
- * ==============================================================================
- * Define todas las rutas relativas de la API para mantener el código desacoplado
- * y facilitar actualizaciones cuando cambie una versión o ruta del backend.
- */
 export const API_ENDPOINTS = {
-  // Autenticación y Cuentas de Operador
+
   AUTH: {
     LOGIN: '/AdminAuth/login',
-    LOGOUT: '/Auth/CerrarSesion',
+    PERFIL: '/AdminAuth/Perfil',
+    ME: '/AdminAuth/Perfil',
     MODULOS_PERMITIDOS: '/AdminAuth/MostrarModulosPermitidos',
     MODULOS: '/AdminAuth/MostrarModulosPermitidos',
-
-    ME: '/auth/me',
-    REFRESH: '/auth/refresh',
-
+    CHANGE_PASSWORD: '/AdminAuth/CambiarPassword',
     FORGOT_PASSWORD: '/AdminAuth/OlvidePassword',
     RESET_PASSWORD: '/AdminAuth/ResetPassword',
-    CHANGE_PASSWORD: '/AdminAuth/CambiarPassword',
     VERIFY_2FA: '/AdminAuth/VerificarCodigo',
+    LOGOUT: '/Auth/CerrarSesion',
+    REFRESH: '/Auth/RefreshToken',
   },
 
-  // Gestión de Usuarios (Clientes y Proveedores de Servicios)
-  USERS: {
-    LIST: '/users',
-    DETAIL: (id: string | number) => `/users/${id}`,
-    UPDATE: (id: string | number) => `/users/${id}`,
-    DELETE: (id: string | number) => `/users/${id}`,
-    CHANGE_STATUS: (id: string | number) => `/users/${id}/status`,
-    SUSPEND: (id: string | number) => `/users/${id}/suspend`,
-    REACTIVATE: (id: string | number) => `/users/${id}/reactivate`,
-    ACTIVITY_LOGS: (id: string | number) => `/users/${id}/activity`,
+  ADMINISTRACION: {
+    RESUMEN: '/Administracion/Resumen',
+    AUDITORIA: '/Administracion/Auditoria',
+    ACCESOS: '/Administracion/Accesos',
+
+    USUARIOS_SISTEMA: {
+      LIST: '/Administracion/UsuariosSistema',
+      CREATE: '/Administracion/UsuariosSistema',
+      CAMBIAR_ESTADO: (id: string | number) => `/Administracion/UsuariosSistema/${id}/Estado`,
+    },
+
+    CLIENTES: '/Administracion/Clientes',
+    PROVEEDORES: '/Administracion/Proveedores',
+    SOLICITUDES: '/Administracion/Solicitudes',
+
+    VERIFICACIONES: {
+      LIST: '/Administracion/Verificaciones',
+      RESOLVER: (id: string | number) => `/Administracion/Verificaciones/${id}/Resolver`,
+    },
+
+    PERFILES: {
+      CAMBIAR_ESTADO: (id: string | number) => `/Administracion/Perfiles/${id}/Estado`,
+    },
   },
 
-  // Verificación de Identidad (e-KYC)
-  VERIFICATION: {
-    LIST: '/verifications',
-    DETAIL: (id: string | number) => `/verifications/${id}`,
-    APPROVE: (id: string | number) => `/verifications/${id}/approve`,
-    REJECT: (id: string | number) => `/verifications/${id}/reject`,
-    REQUEST_CHANGES: (id: string | number) => `/verifications/${id}/request-changes`,
+  PAGOS: {
+    LIST: '/Pagos/Administracion',
+    PENDIENTES: '/Pagos/Administracion/Pendientes',
+    CONFIRMAR: (id: string | number) => `/Pagos/${id}/Confirmar`,
+    RECHAZAR: (id: string | number) => `/Pagos/${id}/Rechazar`,
   },
 
-  // Pagos, Transacciones y Custodia Escrow
-  PAYMENTS: {
-    TRANSACTIONS: '/payments/transactions',
-    TRANSACTION_DETAIL: (id: string | number) => `/payments/transactions/${id}`,
-    ESCROW_LIST: '/payments/escrow',
-    ESCROW_DETAIL: (id: string | number) => `/payments/escrow/${id}`,
-    RELEASE_ESCROW: (id: string | number) => `/payments/escrow/${id}/release`,
-    REFUND_ESCROW: (id: string | number) => `/payments/escrow/${id}/refund`,
-    DISPUTES: '/payments/disputes',
+  RETIROS: {
+    LIST: '/Retiros/Administracion',
+    PENDIENTES: '/Retiros/Administracion/Pendientes',
+    COMPLETAR: (id: string | number) => `/Retiros/${id}/Completar`,
+    RECHAZAR: (id: string | number) => `/Retiros/${id}/Rechazar`,
   },
 
-  // Categorías y Subcategorías de Oficios/Servicios
-  CATEGORIES: {
-    LIST: '/categories',
-    CREATE: '/categories',
-    DETAIL: (id: string | number) => `/categories/${id}`,
-    UPDATE: (id: string | number) => `/categories/${id}`,
-    DELETE: (id: string | number) => `/categories/${id}`,
-    REORDER: '/categories/reorder',
-  },
+  PARAMETROS: {
+    ROLES: '/Parametros/Roles',
 
-  // Métricas, Analíticas y Reportes de Plataforma
-  REPORTS: {
-    DASHBOARD_STATS: '/reports/dashboard-stats',
-    REVENUE_CHART: '/reports/revenue',
-    USER_GROWTH: '/reports/user-growth',
-    EXPORT_EXCEL: '/reports/export/excel',
-    EXPORT_PDF: '/reports/export/pdf',
-  },
+    CONFIGURACIONES: {
+      LIST: '/Parametros/Configuraciones',
+      UPDATE: '/Parametros/Configuraciones',
+    },
 
-  // Bitácora de Auditoría del Sistema
-  AUDIT: {
-    LOGS: '/audit/logs',
-    SECURITY_EVENTS: '/audit/security-events',
-    EXPORT: '/audit/export',
-  },
+    MODULOS: '/Parametros/Modulos',
 
-  // Configuración Global de la Plataforma
-  SETTINGS: {
-    GENERAL: '/settings/general',
-    FEES: '/settings/fees',
-    SECURITY: '/settings/security',
+    PERMISOS_MODULOS: {
+      LIST: '/Parametros/PermisosModulos',
+      UPDATE: '/Parametros/PermisosModulos',
+    },
+
+    CATEGORIAS: {
+      LIST: '/Parametros/Categorias',
+      CREATE: '/Parametros/Categorias',
+      UPDATE: (id: string | number) => `/Parametros/Categorias/${id}`,
+      DELETE: (id: string | number) => `/Parametros/Categorias/${id}`,
+    },
+
+    ESPECIALIDADES: {
+      LIST: '/Parametros/Especialidades',
+      CREATE: '/Parametros/Especialidades',
+      UPDATE: (id: string | number) => `/Parametros/Especialidades/${id}`,
+      DELETE: (id: string | number) => `/Parametros/Especialidades/${id}`,
+    },
+
+    COMISIONES: {
+      LIST: '/Parametros/Comisiones',
+      CREATE: '/Parametros/Comisiones',
+      UPDATE: (id: string | number) => `/Parametros/Comisiones/${id}`,
+      DELETE: (id: string | number) => `/Parametros/Comisiones/${id}`,
+    },
+
+    UBICACIONES_CLIENTE_PROVEEDOR: '/Parametros/UbicacionesClienteProveedor',
   },
 } as const

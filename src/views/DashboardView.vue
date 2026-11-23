@@ -1,177 +1,278 @@
 <template>
-  <div class="space-y-6">
-    <!-- Header de bienvenida -->
+  <div class="space-y-7">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Panel de Control General</h2>
-        <p class="text-slate-500 text-sm mt-0.5">
-          Resumen operativo en tiempo real de transacciones, custodia y operadores.
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          Consola de Control General
+        </h2>
+        <p class="text-slate-500 text-xs sm:text-sm mt-0.5">
+          Centro de Administración de Información (CAI) · Resumen operativo en tiempo real.
         </p>
       </div>
 
-      <div class="flex items-center gap-2.5">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Escrow Activo: BOB 84,250.00
-        </span>
-      </div>
-    </div>
-
-    <!-- Métricas principales -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div 
-        v-for="stat in stats" 
-        :key="stat.title"
-        class="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition duration-200"
-      >
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">{{ stat.title }}</span>
-          <div :class="['w-9 h-9 rounded-xl flex items-center justify-center text-sm', stat.iconBg]">
-            <component :is="stat.icon" class="w-4 h-4" />
-          </div>
-        </div>
-        <div class="text-2xl font-black text-slate-900 tracking-tight">{{ stat.value }}</div>
-        <div class="flex items-center gap-1.5 text-xs mt-2" :class="stat.trendColor">
-          <span>{{ stat.trend }}</span>
-          <span class="text-slate-400 font-normal">vs. mes anterior</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección de Acciones Rápidas & Estado de la Plataforma -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Columna 1 y 2: Actividad reciente -->
-      <div class="lg:col-span-2 p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-base font-bold text-slate-900">Operaciones en Custodia (Escrow) Recientes</h3>
-          <router-link to="/pagos" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
-            Ver todas →
-          </router-link>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead>
-              <tr class="text-slate-400 uppercase font-mono border-b border-slate-100">
-                <th class="pb-3 font-semibold">ID Contrato</th>
-                <th class="pb-3 font-semibold">Servicio</th>
-                <th class="pb-3 font-semibold">Monto</th>
-                <th class="pb-3 font-semibold">Estado</th>
-                <th class="pb-3 font-semibold text-right">Acción</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 font-medium">
-              <tr v-for="tx in recentTransactions" :key="tx.id" class="hover:bg-slate-50/60 transition">
-                <td class="py-3 font-mono text-slate-600">{{ tx.id }}</td>
-                <td class="py-3 text-slate-900">{{ tx.service }}</td>
-                <td class="py-3 font-mono font-bold text-slate-900">{{ tx.amount }}</td>
-                <td class="py-3">
-                  <span :class="['px-2 py-0.5 rounded-md font-mono text-[10px] font-bold', tx.badgeClass]">
-                    {{ tx.status }}
-                  </span>
-                </td>
-                <td class="py-3 text-right">
-                  <button class="text-emerald-600 hover:text-emerald-800 font-bold cursor-pointer">
-                    Revisar
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Columna 3: Verificaciones pendientes de atención -->
-      <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-base font-bold text-slate-900">Validaciones KYC</h3>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 font-mono">
-              8 por auditar
-            </span>
-          </div>
-          <p class="text-xs text-slate-500 mb-4">
-            Operadores que han enviado documento de identidad y fotografía para aprobación manual.
-          </p>
-
-          <ul class="space-y-3">
-            <li v-for="user in pendingUsers" :key="user.name" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">
-                  {{ user.name.charAt(0) }}
-                </div>
-                <div>
-                  <p class="text-xs font-bold text-slate-800 leading-tight">{{ user.name }}</p>
-                  <p class="text-[10px] text-slate-400 font-mono">{{ user.role }}</p>
-                </div>
-              </div>
-              <router-link to="/verificacion" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">
-                Auditar
-              </router-link>
-            </li>
-          </ul>
-        </div>
-
-        <router-link
-          to="/verificacion"
-          class="mt-6 w-full py-2.5 text-center text-xs font-bold rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100/70 transition"
+      <div class="flex flex-wrap items-center gap-2.5">
+        <span
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-2xs"
         >
-          Ir a Bandeja de Verificación →
+          <span
+            :class="[
+              'w-2 h-2 rounded-full',
+              totalPendientes > 0 ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500',
+            ]"
+          ></span>
+          Pendientes por atender: {{ isLoading && !hasLoaded ? '...' : totalPendientes }}
+        </span>
+
+        <button
+          type="button"
+          :disabled="isLoading"
+          @click="cargarResumen"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl text-xs font-bold bg-white text-slate-700 border-2 border-slate-200 hover:border-emerald-500/40 hover:text-emerald-800 transition cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed shadow-2xs"
+        >
+          <RefreshCw :class="['w-3.5 h-3.5', { 'animate-spin': isLoading }]" />
+          <span>{{ isLoading ? 'Actualizando...' : 'Actualizar' }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div
+      v-if="errorMessage"
+      class="p-4 sm:p-5 rounded-3xl bg-rose-50 border-2 border-rose-200 text-rose-900 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-700 border border-rose-200 flex items-center justify-center shrink-0"
+        >
+          <AlertCircle class="w-5 h-5" />
+        </div>
+        <div>
+          <p class="text-xs font-mono font-bold uppercase text-rose-700">
+            Error al cargar resumen administrativo
+          </p>
+          <p class="text-sm font-medium text-rose-900">{{ errorMessage }}</p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        :disabled="isLoading"
+        @click="cargarResumen"
+        class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs transition cursor-pointer shrink-0 self-start sm:self-auto disabled:opacity-60"
+      >
+        Reintentar
+      </button>
+    </div>
+
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-sm sm:text-base font-black text-slate-900 tracking-tight">
+            Requiere tu atención hoy
+          </h3>
+          <p class="text-xs text-slate-500">
+            Colas operativas y financieras en espera de revisión o aprobación.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <router-link to="/finanzas/pagos" class="block">
+          <StatCard
+            label="Pagos Pendientes"
+            :value="displayValue(resumen.pagosPendientes)"
+            subtext="Por confirmar o rechazar →"
+            :icon="CreditCard"
+            variant="indigo"
+            :pulse-dot="resumen.pagosPendientes > 0"
+          />
         </router-link>
+
+        <router-link to="/finanzas/retiros" class="block">
+          <StatCard
+            label="Retiros Pendientes"
+            :value="displayValue(resumen.retirosPendientes)"
+            subtext="Por completar o rechazar →"
+            :icon="Wallet"
+            variant="purple"
+            :pulse-dot="resumen.retirosPendientes > 0"
+          />
+        </router-link>
+
+        <router-link to="/verificacion" class="block">
+          <StatCard
+            label="Verificaciones Pendientes"
+            :value="displayValue(resumen.verificacionesPendientes)"
+            subtext="Identidad e-KYC por auditar →"
+            :icon="BadgeCheck"
+            variant="lime"
+            :pulse-dot="resumen.verificacionesPendientes > 0"
+          />
+        </router-link>
+
+        <router-link to="/operaciones/solicitudes" class="block">
+          <StatCard
+            label="Solicitudes Pendientes"
+            :value="displayValue(resumen.solicitudesPendientes)"
+            subtext="En espera de atención →"
+            :icon="ClipboardList"
+            variant="amber"
+            :pulse-dot="resumen.solicitudesPendientes > 0"
+          />
+        </router-link>
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <div>
+        <h3 class="text-sm sm:text-base font-black text-slate-900 tracking-tight">
+          Estado general de la plataforma
+        </h3>
+        <p class="text-xs text-slate-500">
+          Comunidad registrada y servicios activos en ejecución.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <router-link to="/usuarios/clientes" class="block">
+          <StatCard
+            label="Clientes"
+            :value="displayValue(resumen.clientes)"
+            subtext="Clientes registrados →"
+            :icon="Users"
+            variant="dark"
+            :pulse-dot="true"
+          />
+        </router-link>
+
+        <router-link to="/usuarios/prestadores" class="block">
+          <StatCard
+            label="Proveedores"
+            :value="displayValue(resumen.proveedores)"
+            subtext="Prestadores registrados →"
+            :icon="Briefcase"
+            variant="emerald"
+          />
+        </router-link>
+
+        <router-link to="/operaciones/servicios" class="block">
+          <StatCard
+            label="Servicios en Proceso"
+            :value="displayValue(resumen.serviciosEnProceso)"
+            subtext="Ejecuciones activas →"
+            :icon="Wrench"
+            variant="blue"
+            :pulse-dot="resumen.serviciosEnProceso > 0"
+          />
+        </router-link>
+      </div>
+    </section>
+
+    <div
+      class="px-5 py-4 rounded-2xl bg-white border-2 border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs"
+    >
+      <div class="flex-1 max-w-xl space-y-1.5">
+        <div class="flex items-center justify-between text-[11px] font-mono text-slate-600">
+          <span>
+            Distribución de comunidad:
+            <strong class="text-emerald-700">{{ porcentajeClientes }}% Clientes</strong> ·
+            <strong class="text-lime-700">{{ porcentajeProveedores }}% Proveedores</strong>
+          </span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden flex">
+          <div
+            class="h-full bg-emerald-600 transition-all duration-300"
+            :style="{ width: `${porcentajeClientes}%` }"
+          ></div>
+          <div
+            class="h-full bg-lime-500 transition-all duration-300"
+            :style="{ width: `${porcentajeProveedores}%` }"
+          ></div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 text-slate-500 shrink-0">
+        <span>Última actualización:</span>
+        <span class="font-mono font-bold text-slate-800">
+          {{ lastUpdated || 'Sin sincronizar' }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Users, BadgeCheck, CreditCard, ShieldCheck } from 'lucide-vue-next'
+import { computed, onMounted, ref } from 'vue'
+import {
+  Users,
+  Briefcase,
+  ClipboardList,
+  Wrench,
+  CreditCard,
+  Wallet,
+  BadgeCheck,
+  RefreshCw,
+  AlertCircle,
+} from 'lucide-vue-next'
+import { StatCard } from '@/components/common'
+import { adminService, type ResumenAdministrativoDto } from '@/api'
 
-const stats = [
-  {
-    title: 'Total Usuarios',
-    value: '1,248',
-    trend: '+12.5%',
-    trendColor: 'text-emerald-600 font-bold',
-    icon: Users,
-    iconBg: 'bg-emerald-50 text-emerald-600 border border-emerald-100'
-  },
-  {
-    title: 'KYC Aprobados',
-    value: '894',
-    trend: '+8.1%',
-    trendColor: 'text-emerald-600 font-bold',
-    icon: BadgeCheck,
-    iconBg: 'bg-lime-50 text-lime-600 border border-lime-100'
-  },
-  {
-    title: 'Fondos en Custodia',
-    value: 'BOB 84.2k',
-    trend: '+24.0%',
-    trendColor: 'text-emerald-600 font-bold',
-    icon: CreditCard,
-    iconBg: 'bg-blue-50 text-blue-600 border border-blue-100'
-  },
-  {
-    title: 'Tasa de Resolución',
-    value: '99.4%',
-    trend: '+0.2%',
-    trendColor: 'text-emerald-600 font-bold',
-    icon: ShieldCheck,
-    iconBg: 'bg-purple-50 text-purple-600 border border-purple-100'
+const resumen = ref<ResumenAdministrativoDto>({
+  clientes: 0,
+  proveedores: 0,
+  solicitudesPendientes: 0,
+  serviciosEnProceso: 0,
+  pagosPendientes: 0,
+  retirosPendientes: 0,
+  verificacionesPendientes: 0,
+})
+
+const isLoading = ref(false)
+const hasLoaded = ref(false)
+const errorMessage = ref<string | null>(null)
+const lastUpdated = ref<string | null>(null)
+
+const totalUsuarios = computed(() => resumen.value.clientes + resumen.value.proveedores)
+
+const totalPendientes = computed(
+  () =>
+    resumen.value.solicitudesPendientes +
+    resumen.value.pagosPendientes +
+    resumen.value.retirosPendientes +
+    resumen.value.verificacionesPendientes
+)
+
+const porcentajeClientes = computed(() => {
+  if (totalUsuarios.value === 0) return 0
+  return Math.round((resumen.value.clientes / totalUsuarios.value) * 100)
+})
+
+const porcentajeProveedores = computed(() => {
+  if (totalUsuarios.value === 0) return 0
+  return Math.round((resumen.value.proveedores / totalUsuarios.value) * 100)
+})
+
+function displayValue(value: number): number | string {
+  return isLoading.value && !hasLoaded.value ? '...' : value
+}
+
+async function cargarResumen() {
+  if (isLoading.value) return
+  isLoading.value = true
+  errorMessage.value = null
+
+  try {
+    resumen.value = await adminService.obtenerResumen()
+    hasLoaded.value = true
+    lastUpdated.value = new Date().toLocaleTimeString('es-BO')
+  } catch (err: any) {
+    errorMessage.value =
+      err?.message || 'No se pudo obtener el resumen administrativo.'
+  } finally {
+    isLoading.value = false
   }
-]
+}
 
-const recentTransactions = [
-  { id: '#CTR-9021', service: 'Instalación Eléctrica Trifásica', amount: 'BOB 1,200', status: 'En Custodia', badgeClass: 'bg-amber-100 text-amber-800' },
-  { id: '#CTR-9020', service: 'Mantenimiento Preventivo HVAC', amount: 'BOB 850', status: 'Liberado', badgeClass: 'bg-emerald-100 text-emerald-800' },
-  { id: '#CTR-9019', service: 'Pintura y Acabados Interiores', amount: 'BOB 3,400', status: 'En Disputa', badgeClass: 'bg-rose-100 text-rose-800' },
-  { id: '#CTR-9018', service: 'Plomería de Emergencia', amount: 'BOB 350', status: 'Liberado', badgeClass: 'bg-emerald-100 text-emerald-800' }
-]
-
-const pendingUsers = [
-  { name: 'Carlos Mamani', role: 'Proveedor • Electricista' },
-  { name: 'Lucía Rojas', role: 'Proveedor • Diseñadora' },
-  { name: 'Mario Vargas', role: 'Cliente Corporativo' }
-]
+onMounted(() => {
+  cargarResumen()
+})
 </script>
-

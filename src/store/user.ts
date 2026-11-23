@@ -6,39 +6,25 @@ import { apiClient } from '@/api/client'
 import { API_ENDPOINTS } from '@/api/endpoints'
 import { pinia } from './index'
 
-import { DEFAULT_MODULOS } from '@/data/defaultModules'
-
 const MODULOS_SESSION_KEY = 'sa_admin_auth_modulos'
 
-/**
- * Carga los módulos guardados previamente en sessionStorage (o defaults).
- */
 function loadModulosFromSession(): ModuloMenuDto[] {
-  if (typeof window === 'undefined') return DEFAULT_MODULOS
+  if (typeof window === 'undefined') return []
   const raw = sessionStorage.getItem(MODULOS_SESSION_KEY)
-  if (!raw) return DEFAULT_MODULOS
+  if (!raw) return []
   try {
     const parsed = JSON.parse(raw) as ModuloMenuDto[]
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_MODULOS
+    return Array.isArray(parsed) ? parsed : []
   } catch {
-    return DEFAULT_MODULOS
+    return []
   }
 }
 
-/**
- * ==============================================================================
- * STORE DE USUARIO Y MÓDULOS (PINIA + SESSIONSTORAGE)
- * ==============================================================================
- * Administra el usuario autenticado y los módulos permitidos retornados por
- * /api/AdminAuth/MostrarModulosPermitidos con el token JWT.
- */
 export const useUserStore = defineStore('user', () => {
-  // Estado reactivo cargado desde sessionStorage
   const currentUser = ref<AdminUser | null>(getAuthUser())
   const modulos = ref<ModuloMenuDto[]>(loadModulosFromSession())
   const isLoadingModulos = ref(false)
 
-  // Getters computados
   const user = computed(() => currentUser.value)
   const email = computed(() => currentUser.value?.email || '')
   const nombreCompleto = computed(() => currentUser.value?.nombreCompleto || '')
@@ -58,7 +44,6 @@ export const useUserStore = defineStore('user', () => {
     return 'SA'
   })
 
-  // Acciones (Actions)
   function setUser(userData: AdminUser) {
     currentUser.value = { ...userData }
     setAuthUser(currentUser.value)
@@ -97,15 +82,14 @@ export const useUserStore = defineStore('user', () => {
     modulos.value = loadModulosFromSession()
   }
 
-  /**
-   * Carga los módulos permitidos desde /api/AdminAuth/MostrarModulosPermitidos.
-   * Añade el token JWT en la cabecera Authorization (Bearer).
-   * @param jwtToken Token JWT opcional; si no se provee, utiliza el de sessionStorage.
-   */
+  function setModulos(lista: ModuloMenuDto[]) {
+    modulos.value = lista
+    sessionStorage.setItem(MODULOS_SESSION_KEY, JSON.stringify(lista))
+  }
+
   async function cargarModulos(jwtToken?: string): Promise<MostrarModulosDto | null> {
     const token = jwtToken || getAuthToken()
     if (!token) {
-      console.warn('No hay token JWT disponible para ejecutar cargarModulos.')
       return null
     }
 
@@ -133,7 +117,6 @@ export const useUserStore = defineStore('user', () => {
         sessionStorage.setItem(MODULOS_SESSION_KEY, JSON.stringify(data.modulos))
       }
 
-      // Si la respuesta incluye información del usuario, mantener sincronizado el store
       if (data && (data.email || data.nombreCompleto || data.rol)) {
         updateUser({
           email: data.email || currentUser.value?.email || '',
@@ -144,7 +127,7 @@ export const useUserStore = defineStore('user', () => {
 
       return data
     } catch (error) {
-      console.error('Error al ejecutar /api/AdminAuth/MostrarModulosPermitidos:', error)
+      console.error('Error al cargar módulos permitidos:', error)
       return null
     } finally {
       isLoadingModulos.value = false
@@ -166,13 +149,11 @@ export const useUserStore = defineStore('user', () => {
     updateUser,
     clearUser,
     reloadFromSession,
+    setModulos,
     cargarModulos
   }
 })
 
-/**
- * Acceso directo al store de Pinia para llamadas fuera de setup() (ej: servicios Axios / authService)
- */
 export const getUserStore = () => useUserStore(pinia)
 
 export const userStore = {
@@ -182,11 +163,23 @@ export const userStore = {
   get email(): string {
     return getUserStore().email
   },
+  get nombreCompleto(): string {
+    return getUserStore().nombreCompleto
+  },
+  get rol(): string {
+    return getUserStore().rol
+  },
   get isAuthenticated(): boolean {
     return getUserStore().isAuthenticated
   },
   get modulos(): ModuloMenuDto[] {
     return getUserStore().modulos
+  },
+  set modulos(lista: ModuloMenuDto[]) {
+    getUserStore().setModulos(lista)
+  },
+  setModulos(lista: ModuloMenuDto[]) {
+    getUserStore().setModulos(lista)
   },
   setUser(userData: AdminUser) {
     getUserStore().setUser(userData)

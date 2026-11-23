@@ -4,35 +4,28 @@
     class="login-root relative h-screen w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden selection:bg-[#84cc16] selection:text-[#052e16]"
     @mousemove="handleMouseMove"
   >
-    <!-- ============================================================== -->
-    <!-- COLUMNA IZQUIERDA (50%): ESTILO, COLORES Y COMPONENTES INTACTOS -->
-    <!-- ============================================================== -->
     <section class="relative w-full lg:w-1/2 h-auto lg:h-full bg-[#03140b] text-white p-6 sm:p-8 xl:p-12 flex flex-col justify-between overflow-hidden shrink-0">
       
-      <!-- Capas de fondo inmersivas (restringidas a la columna izquierda) -->
       <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <!-- Auroras animadas con la paleta de marca -->
         <div class="aurora aurora-primary"></div>
         <div class="aurora aurora-secondary"></div>
         <div class="aurora aurora-deep"></div>
 
-        <!-- Spotlight interactivo que sigue al cursor -->
         <div class="spotlight"></div>
       </div>
 
-      <!-- Marca + estado -->
       <header class="relative z-10 flex items-center justify-between gap-3 reveal" style="--d: 0ms">
         <div class="flex items-center gap-3">
-          <div class="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-[#22c55e] to-[#84cc16] p-[1.5px] shadow-[0_0_30px_-4px_#22c55e]">
-            <div class="w-full h-full rounded-[14px] bg-[#052e16] flex items-center justify-center">
-              <ShieldCheck class="w-5 h-5 text-[#84cc16] stroke-[2.4]" />
+          <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#0a3660] via-emerald-600 to-[#84cc16] p-[2px] shadow-[0_0_25px_-4px_rgba(34,197,94,0.35)] shrink-0">
+            <div class="w-full h-full rounded-[14px] bg-white flex items-center justify-center p-1 overflow-hidden shadow-inner">
+              <img :src="logoUrl" alt="ServiciosAquí Logo" class="w-full h-full object-contain" />
             </div>
           </div>
           <div>
-            <span class="text-xl sm:text-2xl font-black tracking-tight leading-none">
-              Servicios<span class="text-transparent bg-clip-text bg-gradient-to-r from-[#22c55e] to-[#84cc16]">Aquí</span>
+            <span class="text-xl sm:text-2xl font-black tracking-tight leading-none text-white">
+              Servicios<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-[#22c55e] to-[#84cc16]">Aquí</span>
             </span>
-            <span class="block text-[10px] font-mono tracking-[0.2em] uppercase text-[#84cc16]/80 mt-1">
+            <span class="block text-[10px] font-mono tracking-[0.2em] uppercase text-emerald-400/90 mt-1">
               Servicios a tu alcance
             </span>
           </div>
@@ -47,7 +40,6 @@
         </div>
       </header>
 
-      <!-- Mensaje principal y métricas vivas -->
       <div class="relative z-10 max-w-xl my-auto py-4">
         <div class="reveal inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-[#84cc16]/10 border border-[#84cc16]/30 text-[#d9f99d] mb-3 sm:mb-4" style="--d: 80ms">
           <Sparkles class="w-3.5 h-3.5 text-[#84cc16]" />
@@ -65,7 +57,6 @@
           Administre los módulos de la aplicación móvil y web: usuarios, pagos, Escrow, e-KYC y rendimiento, desde una sola consola.
         </p>
 
-        <!-- Métricas vivas con contador animado -->
         <div class="reveal grid grid-cols-3 gap-2.5 sm:gap-3 mb-4 sm:mb-5" style="--d: 320ms">
           <div
             v-for="stat in liveStats"
@@ -82,7 +73,6 @@
           </div>
         </div>
 
-        <!-- Ticker de actividad en tiempo real -->
         <div
           class="reveal relative overflow-hidden rounded-2xl border border-[#22c55e]/25 bg-gradient-to-r from-[#22c55e]/[0.12] via-[#052e16]/40 to-[#84cc16]/[0.08] backdrop-blur-md px-3.5 sm:px-4 py-2.5 sm:py-3"
           style="--d: 400ms"
@@ -108,7 +98,6 @@
         </div>
       </div>
 
-      <!-- Pie de página izquierdo -->
       <footer class="relative z-10 reveal flex items-center justify-between text-[11px] font-mono text-emerald-100/40 pt-3 sm:pt-4 border-t border-white/10" style="--d: 480ms">
         <span>© {{ currentYear }} ServiciosAquí Bolivia</span>
         <span class="flex items-center gap-1.5">
@@ -118,24 +107,16 @@
       </footer>
     </section>
 
-    <!-- ============================================================== -->
-    <!-- COLUMNA DERECHA (50%): FONDO BLANCO Y TARJETA BLANCA CON        -->
-    <!-- SOMBRAS EN COLOR #84cc16                                        -->
-    <!-- ============================================================== -->
     <main class="relative w-full lg:w-1/2 h-auto lg:h-full bg-[#fbfdfb] flex items-center justify-center p-6 sm:p-8 xl:p-12 overflow-y-auto border-t lg:border-t-0 lg:border-l border-slate-200/80">
       
-      <!-- Contenedor central -->
       <div class="w-full max-w-md reveal" style="--d: 150ms">
 
-        <!-- Tarjeta de Login Blanca / Medio Blanca con Sombras #84cc16 -->
         <div
           class="card-white-lime relative rounded-[28px] p-7 sm:p-9 overflow-hidden"
           :class="{ shake: isShaking }"
         >
-          <!-- Sutil brillo superior de acento interior -->
           <div class="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-32 rounded-full bg-[#84cc16]/10 blur-2xl" aria-hidden="true"></div>
 
-          <!-- Encabezado de la Tarjeta -->
           <div class="relative mb-6">
             <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#22c55e] to-[#84cc16] flex items-center justify-center mb-4 shadow-[0_10px_25px_-8px_#84cc16]">
               <Fingerprint class="w-6 h-6 text-[#052e16] stroke-[2.2]" />
@@ -148,7 +129,6 @@
             </p>
           </div>
 
-          <!-- Mensaje de Error -->
           <transition name="fade">
             <div
               v-if="errorMessage"
@@ -168,10 +148,8 @@
             </div>
           </transition>
 
-          <!-- Formulario -->
           <form @submit.prevent="handleAdminLogin" class="relative space-y-4" novalidate>
 
-            <!-- Correo del Operador -->
             <div>
               <div class="flex items-center justify-between mb-1.5">
                 <label for="admin-email" class="text-[11px] font-bold uppercase tracking-wider text-slate-600">
@@ -200,7 +178,6 @@
               </div>
             </div>
 
-            <!-- Contraseña -->
             <div>
               <div class="flex items-center justify-between mb-1.5">
                 <label for="admin-key" class="text-[11px] font-bold uppercase tracking-wider text-slate-600">
@@ -247,7 +224,6 @@
               </transition>
             </div>
 
-            <!-- Recordar dispositivo + Estado 2FA -->
             <div class="flex items-center justify-between text-xs pt-0.5">
               <label class="flex items-center gap-2 text-slate-600 font-medium cursor-pointer select-none">
                 <input
@@ -262,7 +238,6 @@
               </span>
             </div>
 
-            <!-- Botón Principal con Degradado de Marca y Destello -->
             <button
               type="submit"
               :disabled="isLoading || loginSuccess"
@@ -272,7 +247,7 @@
               <span class="relative flex items-center justify-center gap-2">
                 <template v-if="isLoading">
                   <span class="w-4 h-4 border-2 border-[#052e16] border-t-transparent rounded-full animate-spin"></span>
-                  Verificando credenciales...
+                  Accediendo a la consola...
                 </template>
                 <template v-else>
                   Ingresar a la consola
@@ -282,7 +257,6 @@
             </button>
           </form>
 
-          <!-- Overlay de Éxito -->
           <transition name="success">
             <div
               v-if="loginSuccess"
@@ -304,7 +278,6 @@
           </transition>
         </div>
 
-        <!-- Nota de Seguridad al pie -->
         <p class="text-center text-[11px] text-slate-400 mt-4 flex items-center justify-center gap-1.5 font-medium">
           <ShieldCheck class="w-3.5 h-3.5 text-[#16a34a]" />
           Conexión cifrada de extremo a extremo · Acceso monitorizado
@@ -312,9 +285,6 @@
       </div>
     </main>
 
-    <!-- ============================================================== -->
-    <!-- MODAL DE RECUPERACIÓN DE CONTRASEÑA EN 3 PASOS (2FA)           -->
-    <!-- ============================================================== -->
     <transition name="modal-fade">
       <div
         v-if="showForgotModal"
@@ -326,10 +296,8 @@
           role="dialog"
           aria-modal="true"
         >
-          <!-- Glow superior con acento verde lima -->
           <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-36 bg-[#84cc16]/15 rounded-full blur-3xl" aria-hidden="true"></div>
 
-          <!-- Barra Superior: Insignia + Botón Cerrar (X) sin colisiones -->
           <div class="relative flex items-center justify-between pb-3.5 mb-5 border-b border-slate-100">
             <div class="flex items-center gap-2">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold bg-[#84cc16]/15 border border-[#84cc16]/30 text-[#15803d]">
@@ -351,11 +319,8 @@
             </button>
           </div>
 
-          <!-- Encabezado / Pasos (solo en pasos 1, 2, 3) -->
           <div v-if="forgotStep !== 4" class="relative mb-6">
-            <!-- Timeline de Pasos -->
             <div class="flex items-center justify-between mb-5 px-1 sm:px-2">
-              <!-- Paso 1 -->
               <div class="flex items-center gap-1.5 sm:gap-2">
                 <div
                   class="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300"
@@ -369,7 +334,6 @@
 
               <div class="flex-1 h-0.5 mx-2 transition-colors duration-300" :class="forgotStep > 1 ? 'bg-[#22c55e]' : 'bg-slate-200'"></div>
 
-              <!-- Paso 2 -->
               <div class="flex items-center gap-1.5 sm:gap-2">
                 <div
                   class="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300"
@@ -383,7 +347,6 @@
 
               <div class="flex-1 h-0.5 mx-2 transition-colors duration-300" :class="forgotStep > 2 ? 'bg-[#22c55e]' : 'bg-slate-200'"></div>
 
-              <!-- Paso 3 -->
               <div class="flex items-center gap-1.5 sm:gap-2">
                 <div
                   class="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300"
@@ -395,7 +358,6 @@
               </div>
             </div>
 
-            <!-- Ícono y Título del Paso Actual -->
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#22c55e]/20 to-[#84cc16]/20 border border-[#84cc16]/30 flex items-center justify-center shrink-0">
                 <Mail v-if="forgotStep === 1" class="w-5 h-5 text-[#15803d]" />
@@ -413,7 +375,6 @@
             </div>
           </div>
 
-          <!-- Alertas de Error y Éxito -->
           <transition name="fade">
             <div
               v-if="forgotError"
@@ -437,7 +398,6 @@
             </div>
           </transition>
 
-          <!-- ================= PASO 1: ENVIAR CÓDIGO AL CORREO ================= -->
           <form v-if="forgotStep === 1" @submit.prevent="handleSendResetCode(false)" class="space-y-4">
             <div>
               <label for="forgot-email" class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
@@ -479,7 +439,6 @@
             </div>
           </form>
 
-          <!-- ================= PASO 2: VERIFICAR CÓDIGO (2FA) ================= -->
           <form v-else-if="forgotStep === 2" @submit.prevent="handleVerifyCode" class="space-y-4">
             <div class="p-3 bg-emerald-50/70 border border-emerald-100/90 rounded-2xl text-xs text-emerald-950 flex items-center justify-between">
               <div class="truncate mr-2">
@@ -503,7 +462,6 @@
                 <span class="text-[10px] text-slate-400 font-mono">{{ forgotForm.codigo.length }}/6</span>
               </div>
 
-              <!-- 6 Casillas de Código OTP -->
               <div class="flex items-center justify-between gap-1.5 sm:gap-2">
                 <input
                   v-for="(digit, idx) in otpDigits"
@@ -561,7 +519,6 @@
             </div>
           </form>
 
-          <!-- ================= PASO 3: NUEVA CONTRASEÑA ================= -->
           <form v-else-if="forgotStep === 3" @submit.prevent="handleResetPassword" class="space-y-4">
             <div>
               <label for="forgot-new-pwd" class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
@@ -638,7 +595,6 @@
             </div>
           </form>
 
-          <!-- ================= PASO 4: ÉXITO TOTAL ================= -->
           <div v-else-if="forgotStep === 4" class="text-center py-4 space-y-4">
             <div class="relative mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-[#22c55e] to-[#84cc16] flex items-center justify-center shadow-[0_10px_25px_-8px_#84cc16]">
               <CheckCircle2 class="w-8 h-8 text-[#052e16] stroke-[2.5]" />
@@ -673,8 +629,8 @@
 <script setup lang="ts">
 import { reactive, ref, computed, nextTick, onMounted, onUnmounted, type Component } from 'vue'
 import { useRouter } from 'vue-router'
-import { authService, setAuthToken } from '@/api'
-import { userStore } from '@/store'
+import { authService } from '@/api'
+import logoUrl from '@/assets/serviciosAqui.png'
 import {
   ShieldCheck,
   Lock,
@@ -726,13 +682,10 @@ const router = useRouter()
 const currentYear = new Date().getFullYear()
 const rootRef = ref<HTMLElement | null>(null)
 
-// ---------------------------------------------------------------
-// Formulario
-// ---------------------------------------------------------------
 const credentials = reactive<AdminCredentials>({
   email: '',
   secretKey: '',
-  remember: false
+  remember: true
 })
 
 const showPassword = ref(false)
@@ -764,9 +717,6 @@ const fillDemoCredentials = () => {
   errorMessage.value = ''
 }
 
-// ---------------------------------------------------------------
-// Recuperación de Contraseña (3 Pasos: Email -> 2FA -> Reset)
-// ---------------------------------------------------------------
 const showForgotModal = ref(false)
 const forgotStep = ref<1 | 2 | 3 | 4>(1)
 const forgotLoading = ref(false)
@@ -784,7 +734,6 @@ const forgotForm = reactive({
   confirmNewPassword: ''
 })
 
-// Estado y referencias para las 6 casillas del código OTP (2FA)
 const otpDigits = ref<string[]>(['', '', '', '', '', ''])
 const otpInputRefs = ref<(HTMLInputElement | null)[]>([])
 
@@ -969,7 +918,6 @@ const handleResetPassword = async () => {
 
     forgotSuccessMsg.value = res?.message || '¡Tu contraseña ha sido restablecida exitosamente!'
     forgotStep.value = 4
-    // Pre-llenar el correo en el formulario de login principal
     credentials.email = forgotForm.email.trim()
   } catch (err: any) {
     forgotError.value = err?.message || 'Error al restablecer la contraseña. Intenta nuevamente.'
@@ -987,47 +935,42 @@ const finishPasswordRecovery = () => {
 const handleAdminLogin = async () => {
   errorMessage.value = ''
 
-  if (!isEmailValid.value) {
-    triggerError('Ingresa un correo institucional válido.')
+  if (!credentials.email.trim()) {
+    triggerError('Por favor ingresa tu correo de operador.')
     return
   }
 
-  if (credentials.secretKey.length < 6) {
-    triggerError('La contraseña debe contener al menos 6 caracteres.')
+  if (!credentials.secretKey) {
+    triggerError('Por favor ingresa tu contraseña.')
     return
   }
 
   isLoading.value = true
 
   try {
-    const response = await authService.login({
+    await authService.login({
       email: credentials.email.trim(),
       password: credentials.secretKey,
       remember: credentials.remember
-
     })
-    
+
     loginSuccess.value = true
     setTimeout(async () => {
       try {
         await router.push('/dashboard')
       } catch (navErr) {
         console.error('Redirección con router falló:', navErr)
+        window.location.href = '/dashboard'
       }
-    }, 900)
+    }, 800)
   } catch (error: any) {
-
-    console.log('Error de login:', error)
+    console.error('Error de login:', error)
     triggerError(error.message || 'Error al conectar con la API. Verifica tus credenciales.')
-    
   } finally {
     isLoading.value = false
   }
 }
 
-// ---------------------------------------------------------------
-// Spotlight interactivo que sigue al cursor (solo columna izquierda)
-// ---------------------------------------------------------------
 let rafId = 0
 const handleMouseMove = (event: MouseEvent) => {
   if (rafId || !rootRef.value) return
@@ -1042,9 +985,6 @@ const handleMouseMove = (event: MouseEvent) => {
   })
 }
 
-// ---------------------------------------------------------------
-// Métricas con contador animado
-// ---------------------------------------------------------------
 const liveStats = reactive<LiveStat[]>([
   { label: 'Usuarios', target: 1248, decimals: 0, suffix: '', display: '0', icon: Users, iconClass: 'text-[#22c55e]' },
   { label: 'KYC verif.', target: 894, decimals: 0, suffix: '', display: '0', icon: BadgeCheck, iconClass: 'text-[#84cc16]' },
@@ -1072,9 +1012,6 @@ const animateCounters = () => {
   requestAnimationFrame(step)
 }
 
-// ---------------------------------------------------------------
-// Ticker de actividad en vivo
-// ---------------------------------------------------------------
 const liveEvents: LiveEvent[] = [
   { title: 'KYC aprobado', detail: 'Carlos M. · Electricista · La Paz', icon: BadgeCheck, iconClass: 'text-[#84cc16]' },
   { title: 'Escrow liberado', detail: 'BOB 1,200 · Contrato #CTR-9020', icon: Wallet, iconClass: 'text-[#22c55e]' },
@@ -1102,9 +1039,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ------------------------------------------------------------------ */
-/* Lienzo y capas de fondo columna izquierda                          */
-/* ------------------------------------------------------------------ */
 .login-root {
   --mx: 25%;
   --my: 40%;
@@ -1175,9 +1109,6 @@ onUnmounted(() => {
   transition: background 0.15s linear;
 }
 
-/* ------------------------------------------------------------------ */
-/* Tipografía con degradado animado                                    */
-/* ------------------------------------------------------------------ */
 .text-gradient-animated {
   background: linear-gradient(90deg, #22c55e, #84cc16, #bef264, #22c55e);
   background-size: 300% 100%;
@@ -1192,9 +1123,6 @@ onUnmounted(() => {
   50% { background-position: 100% 50%; }
 }
 
-/* ------------------------------------------------------------------ */
-/* Tarjeta Blanca con Sombras y Halo en Verde #84cc16                 */
-/* ------------------------------------------------------------------ */
 .card-white-lime {
   background: #ffffff;
   border: 1.5px solid rgba(132, 204, 22, 0.32);
@@ -1215,9 +1143,6 @@ onUnmounted(() => {
   40%, 60% { transform: translateX(6px); }
 }
 
-/* ------------------------------------------------------------------ */
-/* Destello en el botón principal                                      */
-/* ------------------------------------------------------------------ */
 .shimmer {
   position: absolute;
   inset: 0;
@@ -1240,9 +1165,6 @@ onUnmounted(() => {
   to { width: 100%; }
 }
 
-/* ------------------------------------------------------------------ */
-/* Entrada animada escalonada                                          */
-/* ------------------------------------------------------------------ */
 .reveal {
   opacity: 0;
   animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -1254,9 +1176,6 @@ onUnmounted(() => {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ------------------------------------------------------------------ */
-/* Transiciones de Vue                                                 */
-/* ------------------------------------------------------------------ */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -1298,9 +1217,6 @@ onUnmounted(() => {
   transform: scale(0.96);
 }
 
-/* ------------------------------------------------------------------ */
-/* Accesibilidad: preferencias de movimiento reducido                 */
-/* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   .aurora,
   .shimmer,
