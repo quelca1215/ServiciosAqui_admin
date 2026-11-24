@@ -1,108 +1,59 @@
 <template>
   <div
-    ref="rootRef"
-    class="login-root relative h-screen w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden selection:bg-[#84cc16] selection:text-[#052e16]"
-    @mousemove="handleMouseMove"
+    class="relative min-h-screen lg:h-screen w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden selection:bg-[#84cc16] selection:text-[#052e16]"
   >
-    <section class="relative w-full lg:w-1/2 h-auto lg:h-full bg-[#03140b] text-white p-6 sm:p-8 xl:p-12 flex flex-col justify-between overflow-hidden shrink-0">
-      
+    <section class="relative w-full lg:w-1/2 h-auto lg:h-full bg-[#041815] text-white px-6 py-5 sm:px-8 sm:py-6 lg:p-12 xl:p-16 flex flex-col justify-between overflow-hidden shrink-0">
       <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div class="aurora aurora-primary"></div>
-        <div class="aurora aurora-secondary"></div>
-        <div class="aurora aurora-deep"></div>
-
-        <div class="spotlight"></div>
+        <div class="brand-glow"></div>
+        <div class="brand-grid"></div>
       </div>
 
-      <header class="relative z-10 flex items-center justify-between gap-3 reveal" style="--d: 0ms">
-        <div class="flex items-center gap-3">
-          <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#0a3660] via-emerald-600 to-[#84cc16] p-[2px] shadow-[0_0_25px_-4px_rgba(34,197,94,0.35)] shrink-0">
-            <div class="w-full h-full rounded-[14px] bg-white flex items-center justify-center p-1 overflow-hidden shadow-inner">
-              <img :src="logoUrl" alt="ServiciosAquí Logo" class="w-full h-full object-contain" />
-            </div>
-          </div>
-          <div>
-            <span class="text-xl sm:text-2xl font-black tracking-tight leading-none text-white">
-              Servicios<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-[#22c55e] to-[#84cc16]">Aquí</span>
-            </span>
-            <span class="block text-[10px] font-mono tracking-[0.2em] uppercase text-emerald-400/90 mt-1">
-              Servicios a tu alcance
-            </span>
-          </div>
-        </div>
-
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-mono font-semibold bg-[#22c55e]/10 border border-[#22c55e]/30 text-[#bbf7d0] backdrop-blur-md">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#84cc16] opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#84cc16]"></span>
-          </span>
-          Modo Administrador
-        </div>
+      <header class="hidden lg:flex relative z-10 items-center justify-between reveal" style="--d: 0ms">
+        <span class="text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-200/55">
+          Consola de Administración
+        </span>
       </header>
 
-      <div class="relative z-10 max-w-xl my-auto py-4">
-        <div class="reveal inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-[#84cc16]/10 border border-[#84cc16]/30 text-[#d9f99d] mb-3 sm:mb-4" style="--d: 80ms">
-          <Sparkles class="w-3.5 h-3.5 text-[#84cc16]" />
-          Seguridad · Auditoría · Administración
-        </div>
-
-        <h1 class="reveal text-2xl sm:text-3xl xl:text-4xl font-black leading-[1.12] tracking-tight mb-3 sm:mb-4" style="--d: 160ms">
-          Control centralizado de
-          <span class="text-gradient-animated block">
-            Usuarios, Pagos, Escrow y e-KYC
-          </span>
-        </h1>
-
-        <p class="reveal text-xs sm:text-sm text-emerald-50/70 leading-relaxed mb-5 sm:mb-6 max-w-lg" style="--d: 240ms">
-          Administre los módulos de la aplicación móvil y web: usuarios, pagos, Escrow, e-KYC y rendimiento, desde una sola consola.
-        </p>
-
-        <div class="reveal grid grid-cols-3 gap-2.5 sm:gap-3 mb-4 sm:mb-5" style="--d: 320ms">
+      <div class="relative z-10 my-auto flex items-center gap-4 lg:flex-col lg:items-start lg:gap-0 max-w-md reveal" style="--d: 100ms">
+        <div class="relative shrink-0">
           <div
-            v-for="stat in liveStats"
-            :key="stat.label"
-            class="group rounded-2xl p-3 sm:p-3.5 bg-white/[0.04] border border-white/10 backdrop-blur-md hover:border-[#22c55e]/50 hover:bg-[#22c55e]/[0.08] transition-colors duration-300"
-          >
-            <component :is="stat.icon" class="w-4 h-4 mb-1.5 sm:mb-2" :class="stat.iconClass" />
-            <div class="text-lg sm:text-2xl font-black font-mono tracking-tight text-white">
-              {{ stat.display }}
-            </div>
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider font-mono text-emerald-100/50 mt-0.5">
-              {{ stat.label }}
-            </div>
+            class="hidden lg:block pointer-events-none absolute -inset-4 rounded-[34px] bg-gradient-to-br from-[#0d9488]/30 via-[#22c55e]/20 to-[#84cc16]/10 blur-2xl"
+            aria-hidden="true"
+          ></div>
+          <div class="relative w-14 h-14 lg:w-24 lg:h-24 xl:w-28 xl:h-28 rounded-[18px] lg:rounded-[28px] p-1 lg:p-1.5 bg-white/[0.05] ring-1 ring-white/15 backdrop-blur-sm shadow-[0_24px_60px_-12px_rgba(0,0,0,0.65)]">
+            <img
+              :src="logoUrl"
+              alt="ServiciosAquí"
+              class="w-full h-full object-contain rounded-[14px] lg:rounded-[22px]"
+            />
           </div>
         </div>
 
-        <div
-          class="reveal relative overflow-hidden rounded-2xl border border-[#22c55e]/25 bg-gradient-to-r from-[#22c55e]/[0.12] via-[#052e16]/40 to-[#84cc16]/[0.08] backdrop-blur-md px-3.5 sm:px-4 py-2.5 sm:py-3"
-          style="--d: 400ms"
-          aria-live="off"
-        >
-          <div class="flex items-center gap-2.5 sm:gap-3">
-            <span class="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-[#84cc16]">
-              <Radio class="w-3.5 h-3.5 animate-pulse" />
-              En vivo
-            </span>
-            <span class="h-4 w-px bg-white/15"></span>
-            <div class="relative flex-1 h-5 overflow-hidden">
-              <transition name="ticker" mode="out-in">
-                <div :key="tickerIndex" class="absolute inset-0 flex items-center gap-2 text-xs sm:text-sm text-emerald-50/90 whitespace-nowrap">
-                  <component :is="currentEvent.icon" class="w-3.5 h-3.5 shrink-0" :class="currentEvent.iconClass" />
-                  <span class="font-semibold">{{ currentEvent.title }}</span>
-                  <span class="text-emerald-100/40">·</span>
-                  <span class="truncate text-emerald-100/60">{{ currentEvent.detail }}</span>
-                </div>
-              </transition>
-            </div>
+        <div class="lg:mt-8">
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-[42px] font-extrabold tracking-tight leading-none text-white">
+            Servicios<span class="text-transparent bg-clip-text bg-gradient-to-r from-[#34d399] via-[#22c55e] to-[#84cc16]">Aquí</span>
+          </h1>
+          <p class="lg:hidden text-xs text-emerald-100/60 mt-1">
+            Consola de Administración
+          </p>
+
+          <div class="hidden lg:block">
+            <div class="w-12 h-[2px] rounded-full bg-gradient-to-r from-[#34d399] to-[#84cc16] my-6"></div>
+            <p class="text-lg xl:text-xl font-medium text-white/90 leading-snug tracking-tight">
+              Gestión centralizada de tu plataforma.
+            </p>
+            <p class="mt-3 text-sm text-emerald-100/55 leading-relaxed max-w-sm">
+              Administra usuarios, pagos y operaciones desde un entorno seguro y unificado.
+            </p>
           </div>
         </div>
       </div>
 
-      <footer class="relative z-10 reveal flex items-center justify-between text-[11px] font-mono text-emerald-100/40 pt-3 sm:pt-4 border-t border-white/10" style="--d: 480ms">
+      <footer class="hidden lg:flex relative z-10 reveal items-center justify-between text-xs text-emerald-100/40 pt-5 border-t border-white/[0.08]" style="--d: 240ms">
         <span>© {{ currentYear }} ServiciosAquí Bolivia</span>
-        <span class="flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e] shadow-[0_0_8px_#22c55e]"></span>
-          Sitio Actualizado v2.0
+        <span class="flex items-center gap-2 font-mono">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          v2.0
         </span>
       </footer>
     </section>
@@ -627,7 +578,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed, nextTick, onMounted, onUnmounted, type Component } from 'vue'
+import { reactive, ref, computed, nextTick, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { authService } from '@/api'
 import logoUrl from '@/assets/serviciosAqui.png'
@@ -641,15 +592,8 @@ import {
   ArrowLeft,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
-  Activity,
   KeyRound,
   Fingerprint,
-  Radio,
-  Users,
-  BadgeCheck,
-  Wallet,
-  MapPin,
   X,
   Check,
   RefreshCw
@@ -661,26 +605,8 @@ interface AdminCredentials {
   remember: boolean
 }
 
-interface LiveStat {
-  label: string
-  target: number
-  decimals: number
-  suffix: string
-  display: string
-  icon: Component
-  iconClass: string
-}
-
-interface LiveEvent {
-  title: string
-  detail: string
-  icon: Component
-  iconClass: string
-}
-
 const router = useRouter()
 const currentYear = new Date().getFullYear()
-const rootRef = ref<HTMLElement | null>(null)
 
 const credentials = reactive<AdminCredentials>({
   email: '',
@@ -971,156 +897,27 @@ const handleAdminLogin = async () => {
   }
 }
 
-let rafId = 0
-const handleMouseMove = (event: MouseEvent) => {
-  if (rafId || !rootRef.value) return
-  rafId = requestAnimationFrame(() => {
-    const el = rootRef.value
-    if (el) {
-      const rect = el.getBoundingClientRect()
-      el.style.setProperty('--mx', `${event.clientX - rect.left}px`)
-      el.style.setProperty('--my', `${event.clientY - rect.top}px`)
-    }
-    rafId = 0
-  })
-}
-
-const liveStats = reactive<LiveStat[]>([
-  { label: 'Usuarios', target: 1248, decimals: 0, suffix: '', display: '0', icon: Users, iconClass: 'text-[#22c55e]' },
-  { label: 'KYC verif.', target: 894, decimals: 0, suffix: '', display: '0', icon: BadgeCheck, iconClass: 'text-[#84cc16]' },
-  { label: 'Uptime', target: 99.9, decimals: 1, suffix: '%', display: '0%', icon: Activity, iconClass: 'text-[#4ade80]' }
-])
-
-const formatStat = (value: number, stat: LiveStat) =>
-  `${value.toLocaleString('es-BO', { minimumFractionDigits: stat.decimals, maximumFractionDigits: stat.decimals })}${stat.suffix}`
-
-const animateCounters = () => {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (reduceMotion) {
-    liveStats.forEach(s => (s.display = formatStat(s.target, s)))
-    return
-  }
-
-  const duration = 1600
-  const start = performance.now()
-  const step = (now: number) => {
-    const progress = Math.min((now - start) / duration, 1)
-    const eased = 1 - Math.pow(1 - progress, 3)
-    liveStats.forEach(s => (s.display = formatStat(s.target * eased, s)))
-    if (progress < 1) requestAnimationFrame(step)
-  }
-  requestAnimationFrame(step)
-}
-
-const liveEvents: LiveEvent[] = [
-  { title: 'KYC aprobado', detail: 'Carlos M. · Electricista · La Paz', icon: BadgeCheck, iconClass: 'text-[#84cc16]' },
-  { title: 'Escrow liberado', detail: 'BOB 1,200 · Contrato #CTR-9020', icon: Wallet, iconClass: 'text-[#22c55e]' },
-  { title: 'Nuevo proveedor', detail: 'Lucía R. · Arquitectura · Santa Cruz', icon: Users, iconClass: 'text-[#4ade80]' },
-  { title: 'Servicio completado', detail: 'Plomería · Cala Cala, Cochabamba', icon: MapPin, iconClass: 'text-[#84cc16]' },
-  { title: 'Firma verificada', detail: 'Rotación de llaves SHA-384 exitosa', icon: KeyRound, iconClass: 'text-[#22c55e]' }
-]
-
-const tickerIndex = ref(0)
-const currentEvent = computed(() => liveEvents[tickerIndex.value % liveEvents.length]!)
-let tickerTimer: ReturnType<typeof setInterval> | undefined
-
-onMounted(() => {
-  animateCounters()
-  tickerTimer = setInterval(() => {
-    tickerIndex.value = (tickerIndex.value + 1) % liveEvents.length
-  }, 3200)
-})
-
 onUnmounted(() => {
-  if (tickerTimer) clearInterval(tickerTimer)
   if (resendTimer) clearInterval(resendTimer)
-  if (rafId) cancelAnimationFrame(rafId)
 })
 </script>
 
 <style scoped>
-.login-root {
-  --mx: 25%;
-  --my: 40%;
-}
-
-.aurora {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(90px);
-  will-change: transform;
-}
-
-.aurora-primary {
-  width: 42rem;
-  height: 42rem;
-  top: -16rem;
-  left: -12rem;
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.5) 0%, rgba(34, 197, 94, 0) 70%);
-  animation: drift-a 18s ease-in-out infinite alternate;
-}
-
-.aurora-secondary {
-  width: 36rem;
-  height: 36rem;
-  bottom: -14rem;
-  left: 15%;
-  background: radial-gradient(circle, rgba(132, 204, 22, 0.4) 0%, rgba(132, 204, 22, 0) 70%);
-  animation: drift-b 22s ease-in-out infinite alternate;
-}
-
-.aurora-deep {
-  width: 32rem;
-  height: 32rem;
-  top: 15%;
-  right: -8rem;
-  background: radial-gradient(circle, rgba(22, 163, 74, 0.35) 0%, rgba(22, 163, 74, 0) 70%);
-  animation: drift-c 26s ease-in-out infinite alternate;
-}
-
-@keyframes drift-a {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(6rem, 5rem) scale(1.1); }
-}
-
-@keyframes drift-b {
-  0% { transform: translate(0, 0) scale(1.05); }
-  100% { transform: translate(-5rem, -4rem) scale(0.92); }
-}
-
-@keyframes drift-c {
-  0% { transform: translate(0, 0) scale(0.95); }
-  100% { transform: translate(-4rem, 5rem) scale(1.08); }
-}
-
-.dot-grid {
+.brand-glow {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(187, 247, 208, 0.14) 1px, transparent 1px);
-  background-size: 22px 22px;
-  mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 100%);
+  background:
+    radial-gradient(60% 50% at 24% 38%, rgba(13, 148, 136, 0.24) 0%, transparent 70%),
+    radial-gradient(45% 40% at 78% 82%, rgba(34, 197, 94, 0.14) 0%, transparent 70%);
 }
 
-.spotlight {
+.brand-grid {
   position: absolute;
   inset: 0;
-  background: radial-gradient(480px circle at var(--mx) var(--my), rgba(132, 204, 22, 0.12), transparent 60%);
-  transition: background 0.15s linear;
-}
-
-.text-gradient-animated {
-  background: linear-gradient(90deg, #22c55e, #84cc16, #bef264, #22c55e);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-pan 8s ease-in-out infinite;
-}
-
-@keyframes gradient-pan {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 75% 65% at 30% 45%, #000 15%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 30% 45%, #000 15%, transparent 100%);
 }
 
 .card-white-lime {
@@ -1186,19 +983,6 @@ onUnmounted(() => {
   transform: translateY(-4px);
 }
 
-.ticker-enter-active,
-.ticker-leave-active {
-  transition: opacity 0.35s ease, transform 0.35s ease;
-}
-.ticker-enter-from {
-  opacity: 0;
-  transform: translateY(100%);
-}
-.ticker-leave-to {
-  opacity: 0;
-  transform: translateY(-100%);
-}
-
 .success-enter-active {
   transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1218,9 +1002,7 @@ onUnmounted(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora,
   .shimmer,
-  .text-gradient-animated,
   .reveal,
   .shake,
   .progress-fill {
